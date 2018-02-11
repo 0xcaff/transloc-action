@@ -1,0 +1,81 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: node:9.5.0
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+
+      - run:
+          name: Install Deps
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Code Style Lint
+          command: yarn check-style
+
+      - run:
+          name: Flow Check
+          command: yarn flow check
+
+      - run:
+          name: Build
+          command: yarn build
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - '*'
+
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+
+    steps:
+      - attach_workspace:
+          at: /project
+
+      - run:
+          name: Import Credentials
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+
+      - run:
+          name: Register Credentials
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+
+      - run:
+          name: Set Project
+          command: gcloud config set project $GCLOUD_PROJECT_ID
+
+      - run:
+          name: Deploy
+          command: gcloud beta functions deploy Handler --source /project --trigger-http --entry-point handleHttp
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+      - hold:
+          type: approval
+          requires:
+           - test
+          filters:
+            branches:
+              only: master
+
+      - deploy:
+          requires:
+            - hold

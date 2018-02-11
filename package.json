@@ -1,0 +1,33 @@
+{
+  "name": "transloc-action",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "author": "Martin Charles <martincharles07@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "actions-on-google": "^1.8.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.39",
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39",
+    "@babel/preset-flow": "^7.0.0-beta.39",
+    "flow-bin": "^0.65.0",
+    "prettier": "^1.10.2"
+  },
+  "config": {
+    "prettierFiles": "{*,**/*}.{js,json} README.md"
+  },
+  "scripts": {
+    "build": "babel -d lib/ src/",
+    "fix-style": "prettier --write $npm_package_config_prettierFiles",
+    "check-style": "prettier --list-different $npm_package_config_prettierFiles"
+  },
+  "babel": {
+    "presets": [
+      ["@babel/preset-env", { "targets": { "node": "6.11.5" } }],
+      "@babel/preset-flow"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+# Ignore Everything
+*
+
+# But descend into directories
+!*/
+
+!/package.json
+!/lib/**
+!/node_modules/**
