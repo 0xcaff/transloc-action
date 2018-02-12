@@ -1,5 +1,6 @@
 // @flow
 import type { Position } from "transloc-api";
+import { now } from "./now";
 
 type Identifiable<T> = {
   id: T
@@ -63,9 +64,6 @@ const haversineDistance = (
 const deg2rad = (deg: number): number => deg * (Math.PI / 180);
 
 export const distance = haversineDistance;
-
-// The current time in integer epoch seconds.
-export const now = (): number => Math.floor(+new Date() / 1000);
 
 // The amount of seconds until this time.
 export const timeUntil = (time: number) => time - now();

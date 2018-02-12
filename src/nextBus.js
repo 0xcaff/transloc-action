@@ -73,7 +73,7 @@ const createResponse = (
 
   const response = ssml`The following busses are arriving at ${
     from.name
-  }. ${arrivalsText.join("; ")}`;
+  }. ${arrivalsText.join("; ")}.`;
 
   app.tell(response);
   // TODO: Display List of Items

@@ -6,16 +6,17 @@ import {
   identityTemplate,
   lowestCost,
   makeMap,
-  now,
   simplifyDuration,
   ssml,
   ssmlDuration
 } from "./utils";
+import { now } from "./now";
 
 type IdentifiableType = {
   id: string,
   value: number
 };
+
 it("should add an element to a map", () => {
   const map: Map<string, IdentifiableType> = new Map();
   const item = { id: "hello", value: 10 };
@@ -66,13 +67,6 @@ it("should calculate distance correctly", () => {
   const dist = distance(a, b);
 
   expect(dist).toBeCloseTo(8.765e-1, 1e-3);
-});
-
-describe("now", () => {
-  it("should be an integer time", () => {
-    const time = now();
-    expect(time).toBe(Math.floor(time));
-  });
 });
 
 // TODO: Test timeUntil

@@ -2,32 +2,35 @@
 // flow-typed version: <<STUB>>/actions-on-google_v1.8.2/flow_v0.65.0
 
 declare module "actions-on-google" {
-  declare type Permission =
+  declare export type Permission =
     | "NAME"
     | "DEVICE_PRECISE_LOCATION"
     | "DEVICE_COARSE_LOCATION"
     | "UPDATE";
 
-  declare type Coordinates = {
+  declare export type Coordinates = {
     latitude: number,
     longitude: number
   };
 
-  declare type DeviceLocation = {
+  declare export type DeviceLocation = {
     coordinates: Coordinates,
     address: string,
     zipCode: string,
     city: string
   };
 
-  declare type SimpleResponsee = {
+  declare export type SimpleResponse = {
     speech: string,
     displayText: string
   };
 
+  declare export type Response = string | SimpleResponse | RichResponse;
+
   declare export class RichResponse {}
 
   declare export class AssistantApp {
+    static SupportedPermissions: { [Permission]: Permission };
     SupportedPermissions: { [Permission]: Permission };
 
     isPermissionGranted(): boolean;
@@ -42,6 +45,6 @@ declare module "actions-on-google" {
 
   declare export class DialogflowApp extends AssistantApp {
     getArgument(argName: string): any;
-    tell(speechResponse: string | SimpleResponsee | RichResponse): ?Object;
+    tell(speechResponse: Response): ?Object;
   }
 }

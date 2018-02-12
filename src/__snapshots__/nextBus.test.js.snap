@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nextBus handler should request the location when from is not provided 1`] = `
+Object {
+  "permission": Object {
+    "context": "To find the nearest stop",
+    "dialogState": undefined,
+    "permission": undefined,
+  },
+  "type": "ASK_FOR_PERMISSION",
+}
+`;
+
+exports[`nextBus handler should resolve a query with a given location 1`] = `
+Object {
+  "response": "<ssml>The following busses are arriving at Perkins Green. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+  "type": "TELL",
+}
+`;
+
+exports[`nextBus handler should resolve a query without the from field with location provided 1`] = `
+Object {
+  "response": "<ssml>The following busses are arriving at Gleason Circle. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+  "type": "TELL",
+}
+`;

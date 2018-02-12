@@ -8,12 +8,13 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.39",
     "actions-on-google": "^1.8.2",
-    "transloc-api": "^1.0.3"
+    "transloc-api": "^1.0.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.39",
     "@babel/core": "^7.0.0-beta.39",
     "@babel/node": "^7.0.0-beta.39",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.39",
     "@babel/preset-flow": "^7.0.0-beta.39",
     "@google-cloud/functions-emulator": "^1.0.0-alpha.29",
@@ -39,6 +40,7 @@
     "typings": "flow-typed install"
   },
   "babel": {
+    "plugins": ["@babel/plugin-proposal-class-properties"],
     "presets": [
       [
         "@babel/preset-env",
