@@ -36,6 +36,10 @@ export const nextBus = async (app: DialogFlowApp): Promise<void> => {
   }
 
   const { arrivals } = await getArrivals({ agencies, stop_id: stop.id });
+  if (!arrivals.length) {
+    app.tell("There are none.");
+  }
+
   const routes: Map<number, Route> = await buildRouteMap();
 
   const response = `The following busses are arriving: ${arrivals
