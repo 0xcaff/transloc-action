@@ -1,4 +1,5 @@
 // @flow
+import type { DialogflowApp } from "actions-on-google";
 import type { Position, Route, Stop } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 import {
@@ -14,10 +15,10 @@ const TO_ARGUMENT = "to";
 // TODO: Decide this at runtime.
 const agencies = ["643"];
 
-const getFromArg = (app: DialogFlowApp): ?string =>
+const getFromArg = (app: DialogflowApp): ?string =>
   app.getArgument(FROM_ARGUMENT);
 
-const getToArg = (app: DialogFlowApp): ?string => app.getArgument(TO_ARGUMENT);
+const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 
 const buildRouteMap = async (): Promise<Map<number, Route>> => {
   const { routes } = await getRoutes({ agencies });
@@ -28,7 +29,7 @@ const buildRouteMap = async (): Promise<Map<number, Route>> => {
   }, new Map());
 };
 
-export const nextBus = async (app: DialogFlowApp): Promise<void> => {
+export const nextBus = async (app: DialogflowApp): Promise<void> => {
   const from = getFromArg(app);
   const stop: ?Stop = await resolveStop(app, from);
   if (!stop) {
@@ -66,7 +67,7 @@ export const nextBus = async (app: DialogFlowApp): Promise<void> => {
 };
 
 const resolveStop = async (
-  app: DialogFlowApp,
+  app: DialogflowApp,
   from: ?string
 ): Promise<?Stop> => {
   const { stops } = await getStops({ agencies, include_routes: false });
@@ -89,7 +90,14 @@ const resolveStop = async (
       return;
     }
 
-    const { coordinates: deviceCoordinates } = app.getDeviceLocation();
+    const location = app.getDeviceLocation();
+    if (!location) {
+      app.tell(`I couldn't get your location.`);
+      console.error("Failed to get location.");
+      return;
+    }
+
+    const { coordinates: deviceCoordinates } = location;
 
     const { stop: nearestStop } = stops.reduce(
       ({ distance: nearestStopDistance, stop: nearestStop }, stop) => {

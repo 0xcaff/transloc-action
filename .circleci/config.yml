@@ -26,9 +26,9 @@ jobs:
           name: Code Style Lint
           command: yarn check-style
 
-      # - run:
-      #     name: Flow Check
-      #     command: yarn flow check
+      - run:
+          name: Flow Check
+          command: yarn flow check
 
       - run:
           name: Build

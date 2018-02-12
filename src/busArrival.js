@@ -1,13 +1,15 @@
 // @flow
+import { DialogflowApp } from "actions-on-google";
+
 const BUS_ARGUMENT = "bus";
 const LOCATION_ARGUMENT = "location";
 
-const getBusArg = (app: DialogFlowApp): string => app.getArgument(BUS_ARGUMENT);
+const getBusArg = (app: DialogflowApp): string => app.getArgument(BUS_ARGUMENT);
 
-const getLocationArg = (app: DialogFlowApp): ?string =>
+const getLocationArg = (app: DialogflowApp): ?string =>
   app.getArgument(LOCATION_ARGUMENT);
 
-export const busArrival = (app: DialogFlowApp): void => {
+export const busArrival = (app: DialogflowApp): void => {
   // TODO: Get The Bus Argument
   // TODO: Get the Location Argument
   // TODO: Request Arrivals for Stop
