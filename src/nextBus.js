@@ -81,7 +81,8 @@ const resolveStop = async (app: DialogFlowApp, from: ?string): ?Stop => {
         throw new TypeError(`Failed to ask for location permission.`);
       }
 
-      // TODO: Figure out What Happens After This
+      // After this, the location is collected and the intent with the event
+      // actions_intent_PERMISSION is triggered.
       return;
     }
 
