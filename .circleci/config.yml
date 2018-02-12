@@ -23,12 +23,20 @@ jobs:
           key: dependencies-{{ checksum "yarn.lock" }}
 
       - run:
+          name: Install Typings
+          command: yarn typings
+
+      - run:
           name: Code Style Lint
           command: yarn check-style
 
       - run:
           name: Flow Check
           command: yarn flow check
+
+      - run:
+          name: Test
+          command: yarn test --coverage
 
       - run:
           name: Build

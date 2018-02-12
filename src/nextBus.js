@@ -1,71 +1,100 @@
 // @flow
 import type { DialogflowApp } from "actions-on-google";
-import type { Position, Route, Stop } from "transloc-api";
+import type { Arrival, Position, Route, Stop } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 import {
-  humanizeDuration,
-  positionToCoordinates,
-  squaredDist,
-  timeUntil
+  coordsToPosition,
+  distance,
+  simplifyDuration,
+  lowestCost,
+  makeMap,
+  timeUntil,
+  ssmlDuration,
+  ssml
 } from "./utils";
-
-const FROM_ARGUMENT = "from";
-const TO_ARGUMENT = "to";
+import type { Coords } from "./utils";
 
 // TODO: Decide this at runtime.
 const agencies = ["643"];
 
+const FROM_ARGUMENT = "from";
+
 const getFromArg = (app: DialogflowApp): ?string =>
   app.getArgument(FROM_ARGUMENT);
 
+const TO_ARGUMENT = "to";
+
 const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 
+const createResponse = (
+  app: DialogflowApp,
+  from: Stop,
+  arrivals: Arrival[],
+  routes: Map<number, Route>
+): void => {
+  // Sort arrivals by timestamp in ascending order (smallest first).
+  arrivals.sort((a, b) => a.timestamp - b.timestamp);
+
+  const topArrivals = arrivals.slice(0, 5);
+
+  const arrivalsText = topArrivals.map(({ route_id, timestamp }) => {
+    const route = routes.get(route_id);
+    if (!route) {
+      console.error(
+        "Couldn't find route information for arrival.",
+        route_id,
+        routes,
+        arrivals
+      );
+      throw new TypeError("Couldn't find route information for arrival.");
+    }
+
+    const duration = ssmlDuration(simplifyDuration(timeUntil(timestamp)));
+    return `${route.long_name} in ${duration}`;
+  });
+
+  const response = ssml`The following busses are arriving at ${
+    from.name
+  }. ${arrivalsText.join("; ")}`;
+
+  app.tell(response);
+  // TODO: Display List of Items
+};
+
+// Fetches a list of routes and makes a map of route_id to route.
 const buildRouteMap = async (): Promise<Map<number, Route>> => {
   const { routes } = await getRoutes({ agencies });
-
-  return routes.reduce((map, route) => {
-    map.set(route.id, route);
-    return map;
-  }, new Map());
+  return makeMap(routes);
 };
 
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   const from = getFromArg(app);
-  const stop: ?Stop = await resolveStop(app, from);
-  if (!stop) {
+  const fromStop: ?Stop = await resolveStop(app, from);
+  if (!fromStop) {
     return;
   }
 
-  const { arrivals } = await getArrivals({ agencies, stop_id: stop.id });
+  const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
   if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${stop.name}.`);
+    app.tell(`There are no busses arriving at ${fromStop.name}.`);
     return;
   }
 
   const routes: Map<number, Route> = await buildRouteMap();
 
-  const response = `The following busses are arriving: ${arrivals
-    .map(({ route_id, timestamp }) => {
-      const route = routes.get(route_id);
-      if (!route) {
-        console.error(
-          "Couldn't find route information for arrival.",
-          route_id,
-          routes,
-          arrivals
-        );
-        throw new TypeError("Couldn't find route information for arrival.");
-      }
-
-      return `${route.long_name} in ${humanizeDuration(timeUntil(timestamp))}`;
-    })
-    .join("; ")}.`;
-
-  app.tell(response);
-
-  // TODO: Display List of Items
+  createResponse(app, fromStop, arrivals, routes);
 };
 
+const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
+  lowestCost(stops, stop => {
+    const devicePosition = coordsToPosition(to);
+    const distanceToStop = distance(devicePosition, (stop.position: any));
+
+    return distanceToStop;
+  });
+
+// Tries to find the nearest stop to `from`. If not provided, uses the
+// current location.
 const resolveStop = async (
   app: DialogflowApp,
   from: ?string
@@ -99,19 +128,7 @@ const resolveStop = async (
 
     const { coordinates: deviceCoordinates } = location;
 
-    const { stop: nearestStop } = stops.reduce(
-      ({ distance: nearestStopDistance, stop: nearestStop }, stop) => {
-        const stopCoords = positionToCoordinates(stop.position);
-        const distanceToStop = squaredDist(deviceCoordinates, stopCoords);
-
-        if (distanceToStop < nearestStopDistance) {
-          return { distance: distanceToStop, stop };
-        }
-
-        return { distance: nearestStopDistance, stop: nearestStop };
-      },
-      { distance: Infinity, stop: null }
-    );
+    const nearestStop = findNearestStop(deviceCoordinates, stops);
 
     if (nearestStop === null) {
       app.tell("There aren't any stops. I'm not sure what to do.");

@@ -1,27 +1,108 @@
+// @flow
+import type { Position } from "transloc-api";
+
+type Identifiable<T> = {
+  id: T
+};
+
+export const addToMap = <I, T: Identifiable<I>>(map: Map<I, T>, item: T) => {
+  map.set(item.id, item);
+};
+
+export const makeMap = <I, T: Identifiable<I>>(list: T[]): Map<I, T> =>
+  list.reduce((map, identifiable: T) => {
+    addToMap(map, identifiable);
+    return map;
+  }, new Map());
+
+export const lowestCost = <T>(list: T[], costFn: T => number): ?T => {
+  const { cheapestItem } = list.reduce(
+    ({ lowestCost, cheapestItem }, item) => {
+      const itemCost = costFn(item);
+
+      if (itemCost < lowestCost) {
+        return { lowestCost: itemCost, cheapestItem: item };
+      }
+
+      return { lowestCost, cheapestItem };
+    },
+    { lowestCost: Infinity, cheapestItem: null }
+  );
+
+  return cheapestItem;
+};
+
 export type Coords = {
   latitude: number,
   longitude: number
 };
 
-export const positionToCoordinates = ([latitude, longitude]: Position) => ({
-  latitude,
-  longitude
-});
+export const coordsToPosition = (c: Coords): Position => [
+  c.latitude,
+  c.longitude
+];
 
-export const squaredDist = (a: Coords, b: Coords): number =>
-  (a.latitude - b.latitude) ** 2 + (a.longitude - b.longitude) ** 2;
+const haversineDistance = (
+  [lat1, lon1]: Position,
+  [lat2, lon2]: Position
+): number => {
+  const radius = 6371e3;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = radius * c;
+  return distance;
+};
 
-// The current time a epoch seconds.
-const now = (): number => +new Date() / 1000;
+const deg2rad = (deg: number): number => deg * (Math.PI / 180);
+
+export const distance = haversineDistance;
+
+// The current time in integer epoch seconds.
+export const now = (): number => Math.floor(+new Date() / 1000);
 
 // The amount of seconds until this time.
 export const timeUntil = (time: number) => time - now();
 
-// A human readable duration string from the number of seconds.
-export const humanizeDuration = (time: number) => {
+type SimpleDuration = {
+  unit: string,
+  count: number
+};
+
+export const simplifyDuration = (time: number): SimpleDuration => {
   if (time > 60) {
-    return `${Math.floor(time / 60)} minutes`;
+    return { unit: "minute", count: Math.floor(time / 60) };
   }
 
-  return `${time} seconds`;
+  return { unit: "second", count: time };
 };
+
+export const ssmlDuration = ({ count, unit }: SimpleDuration): string =>
+  `<say-as interpret-as="unit">${count} ${unit}</say-as>`;
+
+export const identityTemplate = (
+  literals: string[],
+  ...substitutions: string[]
+): string => {
+  let result = "";
+
+  // run the loop only for the substitution count
+  for (let i = 0; i < substitutions.length; i++) {
+    result += literals[i];
+    result += substitutions[i];
+  }
+
+  // add the last literal
+  result += literals[literals.length - 1];
+
+  return result;
+};
+
+export const ssml = (literals: string[], ...substitutions: string[]) =>
+  `<ssml>${identityTemplate(literals, ...substitutions)}</ssml>`;

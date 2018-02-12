@@ -17,7 +17,11 @@
     "@babel/preset-env": "^7.0.0-beta.39",
     "@babel/preset-flow": "^7.0.0-beta.39",
     "@google-cloud/functions-emulator": "^1.0.0-alpha.29",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^22.2.2",
     "flow-bin": "^0.65.0",
+    "flow-typed": "^2.3.0",
+    "jest": "^22.2.2",
     "prettier": "^1.10.2"
   },
   "config": {
@@ -25,12 +29,14 @@
   },
   "scripts": {
     "build": "babel -d lib/ src/",
+    "test": "jest src/",
     "fix-style": "prettier --write $npm_package_config_prettierFiles",
     "check-style":
       "prettier --list-different $npm_package_config_prettierFiles",
     "deploy-local":
       "functions deploy Handler --trigger-http --entry-point handleHttp",
-    "postinstall": "rm node_modules/protobufjs/src/bower.json"
+    "postinstall": "rm node_modules/protobufjs/src/bower.json || true",
+    "typings": "flow-typed install"
   },
   "babel": {
     "presets": [
