@@ -53,7 +53,7 @@ export const nextBus = async (app: DialogFlowApp): Promise<void> => {
 
       return `${route.long_name} in ${humanizeDuration(timeUntil(timestamp))}`;
     })
-    .join(";")}`;
+    .join("; ")}.`;
 
   app.tell(response);
 
@@ -61,7 +61,8 @@ export const nextBus = async (app: DialogFlowApp): Promise<void> => {
 };
 
 const resolveStop = async (app: DialogFlowApp, from: ?string): ?Stop => {
-  const stops = await getStops({ agencies });
+  const { stops } = await getStops({ agencies });
+  console.log("Received Stops", stops);
 
   if (!from) {
     // From not provided, try to use device location.
