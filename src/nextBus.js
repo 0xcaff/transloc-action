@@ -26,6 +26,24 @@ const TO_ARGUMENT = "to";
 
 const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 
+export const nextBus = async (app: DialogflowApp): Promise<void> => {
+  const from = getFromArg(app);
+  const fromStop: ?Stop = await resolveStop(app, from);
+  if (!fromStop) {
+    return;
+  }
+
+  const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
+  if (!arrivals.length) {
+    app.tell(`There are no busses arriving at ${fromStop.name}.`);
+    return;
+  }
+
+  const routes: Map<number, Route> = await buildRouteMap();
+
+  createResponse(app, fromStop, arrivals, routes);
+};
+
 const createResponse = (
   app: DialogflowApp,
   from: Stop,
@@ -65,24 +83,6 @@ const createResponse = (
 const buildRouteMap = async (): Promise<Map<number, Route>> => {
   const { routes } = await getRoutes({ agencies });
   return makeMap(routes);
-};
-
-export const nextBus = async (app: DialogflowApp): Promise<void> => {
-  const from = getFromArg(app);
-  const fromStop: ?Stop = await resolveStop(app, from);
-  if (!fromStop) {
-    return;
-  }
-
-  const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
-  if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${fromStop.name}.`);
-    return;
-  }
-
-  const routes: Map<number, Route> = await buildRouteMap();
-
-  createResponse(app, fromStop, arrivals, routes);
 };
 
 const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
