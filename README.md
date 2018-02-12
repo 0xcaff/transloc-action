@@ -1,5 +1,7 @@
 # transloc-action
 
+[![Build Status][build-status-image]][build-status]
+
 A dialogflow action for information exposed by the transloc API.
 
 You can ask it about the following things.
@@ -36,8 +38,5 @@ which have `destination` on their route are listed.
 * How long will it take for me to get to _place_?
 * Where does _bus_ stop?
 
-# TODO: Add ESLint
-
-# TODO: Tests
-
-# TODO: Types
+[build-status-image]: https://circleci.com/gh/0xcaff/transloc-action.svg?style=svg
+[build-status]: https://circleci.com/gh/0xcaff/transloc-action)
