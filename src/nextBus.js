@@ -30,14 +30,14 @@ const buildRouteMap = async (): Promise<Map<number, Route>> => {
 
 export const nextBus = async (app: DialogFlowApp): Promise<void> => {
   const from = getFromArg(app);
-  const stop = await resolveStop(app, from);
+  const stop: ?Stop = await resolveStop(app, from);
   if (!stop) {
     return;
   }
 
   const { arrivals } = await getArrivals({ agencies, stop_id: stop.id });
   if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${stop.long_name}.`);
+    app.tell(`There are no busses arriving at ${stop.name}.`);
     return;
   }
 
