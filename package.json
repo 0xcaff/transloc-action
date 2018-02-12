@@ -29,7 +29,8 @@
     "check-style":
       "prettier --list-different $npm_package_config_prettierFiles",
     "deploy-local":
-      "functions deploy Handler --trigger-http --entry-point handleHttp"
+      "functions deploy Handler --trigger-http --entry-point handleHttp",
+    "postinstall": "rm node_modules/protobufjs/src/bower.json"
   },
   "babel": {
     "presets": [
