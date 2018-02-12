@@ -65,8 +65,11 @@ export const nextBus = async (app: DialogFlowApp): Promise<void> => {
   // TODO: Display List of Items
 };
 
-const resolveStop = async (app: DialogFlowApp, from: ?string): ?Stop => {
-  const { stops } = await getStops({ agencies });
+const resolveStop = async (
+  app: DialogFlowApp,
+  from: ?string
+): Promise<?Stop> => {
+  const { stops } = await getStops({ agencies, include_routes: false });
   console.log("Received Stops", stops);
 
   if (!from) {
