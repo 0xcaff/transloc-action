@@ -1,6 +1,6 @@
 # transloc-action
 
-A diagflow action for information exposed by the transloc API.
+A dialogflow action for information exposed by the transloc API.
 
 You can ask it about the following things.
 
@@ -35,3 +35,9 @@ which have `destination` on their route are listed.
 
 * How long will it take for me to get to _place_?
 * Where does _bus_ stop?
+
+# TODO: Add ESLint
+
+# TODO: Tests
+
+# TODO: Types

@@ -6,11 +6,13 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "actions-on-google": "^1.8.2"
+    "actions-on-google": "^1.8.2",
+    "transloc-api": "^1.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.39",
     "@babel/core": "^7.0.0-beta.39",
+    "@babel/node": "^7.0.0-beta.39",
     "@babel/preset-env": "^7.0.0-beta.39",
     "@babel/preset-flow": "^7.0.0-beta.39",
     "flow-bin": "^0.65.0",
@@ -26,7 +28,14 @@
   },
   "babel": {
     "presets": [
-      ["@babel/preset-env", { "targets": { "node": "6.11.5" } }],
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "6.11.5"
+          }
+        }
+      ],
       "@babel/preset-flow"
     ]
   }
