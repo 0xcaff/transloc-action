@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 import { DialogflowApp } from "actions-on-google";
 import { nextBus } from "./nextBus";
 import { busArrival } from "./busArrival";
