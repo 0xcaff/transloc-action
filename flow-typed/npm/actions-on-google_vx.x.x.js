@@ -27,7 +27,10 @@ declare module "actions-on-google" {
 
   declare export type Response = string | SimpleResponse | RichResponse;
 
-  declare export class RichResponse {}
+  declare class RichResponse {
+    constructor(otherResponse: ?RichResponse): RichResponse;
+    addSimpleResponse(response: string | SimpleResponse): RichResponse;
+  }
 
   declare export class AssistantApp {
     static SupportedPermissions: { [Permission]: Permission };
@@ -46,5 +49,6 @@ declare module "actions-on-google" {
   declare export class DialogflowApp extends AssistantApp {
     getArgument(argName: string): any;
     tell(speechResponse: Response): ?Object;
+    buildRichResponse(otherResponse: ?RichResponse): RichResponse;
   }
 }

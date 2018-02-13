@@ -5,11 +5,11 @@ import {
   distance,
   lowestCost,
   makeMap,
+  pluralizedDurationSuffix,
   simplifyDuration,
   ssml,
   ssmlDuration
 } from "./utils";
-import { now } from "./now";
 
 type IdentifiableType = {
   id: string,
@@ -85,3 +85,13 @@ it("should wrap duration in ssml", () => {
 
 it("should wrap the contents in ssml tags", () =>
   expect(ssml`hello world`).toEqual(`<ssml>hello world</ssml>`));
+
+it("should not pluralize singular units", () =>
+  expect(pluralizedDurationSuffix({ count: 1, unit: "second" })).toBe(
+    "second"
+  ));
+
+it("should pluralize non-singular units", () =>
+  expect(pluralizedDurationSuffix({ count: 10, unit: "second" })).toBe(
+    "seconds"
+  ));

@@ -101,3 +101,13 @@ export const escape = (s: string): string =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+
+export const pluralizedDurationSuffix = ({ count, unit }: SimpleDuration) => {
+  if (count > 1) {
+    return simplePluralize(unit);
+  }
+
+  return unit;
+};
+
+const simplePluralize = (unit: string): string => `${unit}s`;

@@ -11,11 +11,11 @@ import {
   timeUntil,
   ssmlDuration,
   ssml,
-  escape
+  escape,
+  pluralizedDurationSuffix
 } from "./utils";
 import type { Coords } from "./utils";
 
-// TODO: Decide this at runtime.
 const agencies = ["643"];
 
 const FROM_ARGUMENT = "from";
@@ -36,7 +36,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
   const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
   if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${escape(fromStop.name)}.`);
+    app.tell(`There are no busses arriving at ${fromStop.name}.`);
     return;
   }
 
@@ -56,7 +56,7 @@ const createResponse = (
 
   const topArrivals = arrivals.slice(0, 5);
 
-  const arrivalsText = topArrivals.map(({ route_id, timestamp }) => {
+  const arrivalsInfo = topArrivals.map(({ route_id, timestamp }) => {
     const route = routes.get(route_id);
     if (!route) {
       console.error(
@@ -68,16 +68,39 @@ const createResponse = (
       throw new TypeError("Couldn't find route information for arrival.");
     }
 
-    const duration = ssmlDuration(simplifyDuration(timeUntil(timestamp)));
-    return `${route.long_name} in ${duration}`;
+    const duration = simplifyDuration(timeUntil(timestamp));
+
+    return { duration, routeName: route.long_name };
   });
 
-  const response = ssml`The following busses are arriving at ${escape(
-    from.name
-  )}. ${arrivalsText.join("; ")}.`;
+  const spokenArrivals = arrivalsInfo
+    .map(
+      ({ duration, routeName }) => `${routeName} in ${ssmlDuration(duration)}`
+    )
+    .join("; ");
 
-  app.tell(response);
-  // TODO: Display List of Items
+  const textArrivals = arrivalsInfo
+    .map(
+      ({ duration, routeName }) =>
+        `${routeName} in ${duration.count} ${pluralizedDurationSuffix(
+          duration
+        )}`
+    )
+    .join("; ");
+
+  const richResponse = app.buildRichResponse();
+
+  richResponse.addSimpleResponse(
+    ssml`The following busses are arriving at ${escape(
+      from.name
+    )}. ${spokenArrivals}.`
+  );
+
+  richResponse.addSimpleResponse(
+    `The following busses are arriving at ${from.name}. ${textArrivals}.`
+  );
+
+  app.tell(richResponse);
 };
 
 // Fetches a list of routes and makes a map of route_id to route.

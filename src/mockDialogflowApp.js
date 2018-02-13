@@ -2,12 +2,8 @@
 
 import { DialogflowApp } from "actions-on-google";
 
-import type {
-  DialogflowApp as DialogflowAppT,
-  Response,
-  DeviceLocation,
-  Permission
-} from "actions-on-google";
+import type { Response, DeviceLocation, Permission } from "actions-on-google";
+import { RichResponse } from "actions-on-google/response-builder";
 
 type RecordedPermission = {
   context: string,
@@ -58,6 +54,10 @@ export class MockDialogflowApp {
       type: "ASK_FOR_PERMISSION",
       permission: { context, permission, dialogState }
     };
+  };
+
+  buildRichResponse = (otherResponse: ?RichResponse): RichResponse => {
+    return new RichResponse(otherResponse);
   };
 
   getDeviceLocation = (): ?DeviceLocation => this.deviceLocation;

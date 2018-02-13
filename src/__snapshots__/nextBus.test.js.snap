@@ -13,14 +13,44 @@ Object {
 
 exports[`nextBus handler should resolve a query with a given location 1`] = `
 Object {
-  "response": "<ssml>The following busses are arriving at Perkins Green. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+  "response": RichResponse {
+    "items": Array [
+      Object {
+        "simpleResponse": Object {
+          "textToSpeech": "<ssml>The following busses are arriving at Perkins Green. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+        },
+      },
+      Object {
+        "simpleResponse": Object {
+          "textToSpeech": "The following busses are arriving at Perkins Green. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+        },
+      },
+    ],
+    "linkOutSuggestion": undefined,
+    "suggestions": Array [],
+  },
   "type": "TELL",
 }
 `;
 
 exports[`nextBus handler should resolve a query without the from field with location provided 1`] = `
 Object {
-  "response": "<ssml>The following busses are arriving at Gleason Circle. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+  "response": RichResponse {
+    "items": Array [
+      Object {
+        "simpleResponse": Object {
+          "textToSpeech": "<ssml>The following busses are arriving at Gleason Circle. Perkins - Park Point in <say-as interpret-as=\\"unit\\">11 minute</say-as>; Colony Manor / The Province in <say-as interpret-as=\\"unit\\">16 minute</say-as>; RIT Inn in <say-as interpret-as=\\"unit\\">16 minute</say-as>; Racquet Club in <say-as interpret-as=\\"unit\\">27 minute</say-as>; Perkins - Park Point in <say-as interpret-as=\\"unit\\">32 minute</say-as>.</ssml>",
+        },
+      },
+      Object {
+        "simpleResponse": Object {
+          "textToSpeech": "The following busses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+        },
+      },
+    ],
+    "linkOutSuggestion": undefined,
+    "suggestions": Array [],
+  },
   "type": "TELL",
 }
 `;
