@@ -38,7 +38,8 @@
     "deploy-local":
       "functions deploy Handler --trigger-http --entry-point handleHttp",
     "postinstall": "rm node_modules/protobufjs/src/bower.json || true",
-    "typings": "flow-typed install"
+    "typings": "flow-typed install",
+    "check-all": "yarn test && yarn flow check && yarn check-style"
   },
   "babel": {
     "plugins": [

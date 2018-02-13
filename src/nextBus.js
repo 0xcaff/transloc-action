@@ -147,9 +147,9 @@ const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
   });
 
 const findMatchingStop = (query: string, stops: Stop[]): ?Stop => {
-  const normalizedFrom = query.toLowerCase();
+  const normalizedFrom = query.toLowerCase().trim();
   const stop = stops.find(
-    element => element.name.toLowerCase() === normalizedFrom
+    element => element.name.toLowerCase().trim() === normalizedFrom
   );
 
   return stop;
