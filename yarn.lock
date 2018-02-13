@@ -4742,8 +4742,8 @@ tr46@^1.0.0:
     punycode "^2.1.0"
 
 transloc-api@^1.0.8:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/transloc-api/-/transloc-api-1.0.9.tgz#72becc840534aa95f6a27a601024d3433dc2669b"
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/transloc-api/-/transloc-api-1.0.15.tgz#edd1844323f55fad6b9c51af91bec231aba126cd"
   dependencies:
     isomorphic-fetch "^2.2.1"
     whatwg-url "^6.4.0"
