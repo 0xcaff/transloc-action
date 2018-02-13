@@ -81,27 +81,6 @@ export const simplifyDuration = (time: number): SimpleDuration => {
   return { unit: "second", count: time };
 };
 
-export const ssmlDuration = ({ count, unit }: SimpleDuration): string =>
-  `<say-as interpret-as="unit">${count} ${unit}</say-as>`;
-
-export const ssml = (
-  literals: string[],
-  ...substitutions: string[]
-): string => {
-  const raw = literals.reduce(
-    (out, str, i) => (i ? out + substitutions[i - 1] + str : str)
-  );
-
-  return `<ssml>${raw}</ssml>`;
-};
-
-export const escape = (s: string): string =>
-  s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-
 export const pluralizedDurationSuffix = ({ count, unit }: SimpleDuration) => {
   if (count > 1) {
     return simplePluralize(unit);

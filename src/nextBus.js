@@ -9,9 +9,6 @@ import {
   lowestCost,
   makeMap,
   timeUntil,
-  ssmlDuration,
-  ssml,
-  escape,
   pluralizedDurationSuffix
 } from "./utils";
 import type { Coords } from "./utils";
@@ -73,12 +70,6 @@ const createResponse = (
     return { duration, routeName: route.long_name };
   });
 
-  const spokenArrivals = arrivalsInfo
-    .map(
-      ({ duration, routeName }) => `${routeName} in ${ssmlDuration(duration)}`
-    )
-    .join("; ");
-
   const textArrivals = arrivalsInfo
     .map(
       ({ duration, routeName }) =>
@@ -88,19 +79,9 @@ const createResponse = (
     )
     .join("; ");
 
-  const richResponse = app.buildRichResponse();
-
-  richResponse.addSimpleResponse(
-    ssml`The following busses are arriving at ${escape(
-      from.name
-    )}. ${spokenArrivals}.`
-  );
-
-  richResponse.addSimpleResponse(
+  app.tell(
     `The following busses are arriving at ${from.name}. ${textArrivals}.`
   );
-
-  app.tell(richResponse);
 };
 
 // Fetches a list of routes and makes a map of route_id to route.

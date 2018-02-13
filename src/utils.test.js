@@ -6,9 +6,7 @@ import {
   lowestCost,
   makeMap,
   pluralizedDurationSuffix,
-  simplifyDuration,
-  ssml,
-  ssmlDuration
+  simplifyDuration
 } from "./utils";
 
 type IdentifiableType = {
@@ -77,14 +75,6 @@ describe("simplify duration", () => {
   it("should simplify seconds", () =>
     expect(simplifyDuration(30)).toEqual({ unit: "second", count: 30 }));
 });
-
-it("should wrap duration in ssml", () => {
-  const got = ssmlDuration({ count: 10, unit: "second" });
-  expect(got).toBe(`<say-as interpret-as="unit">10 second</say-as>`);
-});
-
-it("should wrap the contents in ssml tags", () =>
-  expect(ssml`hello world`).toEqual(`<ssml>hello world</ssml>`));
 
 it("should not pluralize singular units", () =>
   expect(pluralizedDurationSuffix({ count: 1, unit: "second" })).toBe(
