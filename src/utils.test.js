@@ -3,7 +3,6 @@ import {
   addToMap,
   coordsToPosition,
   distance,
-  identityTemplate,
   lowestCost,
   makeMap,
   simplifyDuration,
@@ -83,11 +82,6 @@ it("should wrap duration in ssml", () => {
   const got = ssmlDuration({ count: 10, unit: "second" });
   expect(got).toBe(`<say-as interpret-as="unit">10 second</say-as>`);
 });
-
-it(`shouldn't modify the contents of the template`, () =>
-  expect(identityTemplate`hello world ${10 + 10} asdf ${"a string"}`).toEqual(
-    "hello world 20 asdf a string"
-  ));
 
 it("should wrap the contents in ssml tags", () =>
   expect(ssml`hello world`).toEqual(`<ssml>hello world</ssml>`));

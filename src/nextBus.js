@@ -10,7 +10,8 @@ import {
   makeMap,
   timeUntil,
   ssmlDuration,
-  ssml
+  ssml,
+  escape
 } from "./utils";
 import type { Coords } from "./utils";
 
@@ -35,7 +36,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
   const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
   if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${fromStop.name}.`);
+    app.tell(`There are no busses arriving at ${escape(fromStop.name)}.`);
     return;
   }
 
@@ -71,9 +72,9 @@ const createResponse = (
     return `${route.long_name} in ${duration}`;
   });
 
-  const response = ssml`The following busses are arriving at ${
+  const response = ssml`The following busses are arriving at ${escape(
     from.name
-  }. ${arrivalsText.join("; ")}.`;
+  )}. ${arrivalsText.join("; ")}.`;
 
   app.tell(response);
   // TODO: Display List of Items

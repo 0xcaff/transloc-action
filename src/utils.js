@@ -84,23 +84,20 @@ export const simplifyDuration = (time: number): SimpleDuration => {
 export const ssmlDuration = ({ count, unit }: SimpleDuration): string =>
   `<say-as interpret-as="unit">${count} ${unit}</say-as>`;
 
-export const identityTemplate = (
+export const ssml = (
   literals: string[],
   ...substitutions: string[]
 ): string => {
-  let result = "";
+  const raw = literals.reduce(
+    (out, str, i) => (i ? out + substitutions[i - 1] + str : str)
+  );
 
-  // run the loop only for the substitution count
-  for (let i = 0; i < substitutions.length; i++) {
-    result += literals[i];
-    result += substitutions[i];
-  }
-
-  // add the last literal
-  result += literals[literals.length - 1];
-
-  return result;
+  return `<ssml>${raw}</ssml>`;
 };
 
-export const ssml = (literals: string[], ...substitutions: string[]) =>
-  `<ssml>${identityTemplate(literals, ...substitutions)}</ssml>`;
+export const escape = (s: string): string =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
