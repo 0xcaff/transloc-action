@@ -20,14 +20,14 @@ before the bus arrives at the stop.
 
 ## Next Busses
 
-* Which busses are arriving at _place_ next?
+* Which buses are arriving at _place_ next?
 * When is the next bus to _place_ arriving?
 * When is the next bus from _place_ to _place_ arriving?
 
-This will list all busses arriving at `source` sorted from soonest arriving to
+This will list all buses arriving at `source` sorted from soonest arriving to
 latest arriving. If `source` isn't specified, the current location is used.
 
-If `destination` is specified, only busses which are going from the `source`
+If `destination` is specified, only buses which are going from the `source`
 which have `destination` on their route are listed.
 
 * The Perkin's Green bus is arriving in 5 minutes and the Park Point bus is

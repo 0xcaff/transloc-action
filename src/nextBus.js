@@ -45,7 +45,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
   logger.info({ arrivals }, "getArrivals response");
   if (!arrivals.length) {
-    app.tell(`There are no busses arriving at ${fromStop.name}.`);
+    app.tell(`There are no buses arriving at ${fromStop.name}.`);
     return;
   }
 
@@ -130,11 +130,11 @@ const createResponse = (
 
   if (!to) {
     app.tell(
-      `The following busses are arriving at ${from.name}. ${textArrivals}.`
+      `The following buses are arriving at ${from.name}. ${textArrivals}.`
     );
   } else {
     app.tell(
-      `The following busses are traveling from ${from.name} to ${
+      `The following buses are traveling from ${from.name} to ${
         to.name
       }. ${textArrivals}.`
     );
