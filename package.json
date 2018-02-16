@@ -27,7 +27,8 @@
     "flow-bin": "^0.65.0",
     "flow-typed": "^2.3.0",
     "jest": "^22.2.2",
-    "prettier": "^1.10.2"
+    "prettier": "^1.10.2",
+    "synp": "^1.2.1"
   },
   "config": {
     "prettierFiles": "{*,**/*}.{js,json} README.md"
@@ -41,7 +42,9 @@
     "deploy-local":
       "functions deploy Handler --trigger-http --entry-point handleHttp",
     "typings": "flow-typed install",
-    "check-all": "yarn test && yarn flow check && yarn check-style"
+    "check-all": "yarn test && yarn flow check && yarn check-style",
+    "postinstall":
+      "if [ ! -f ./package-lock.json ]; then synp --source-file ./yarn.lock; fi"
   },
   "babel": {
     "plugins": [
