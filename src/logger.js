@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "production") {
   // Creates a Bunyan Stackdriver Logging client
   const loggingBunyan = new LoggingBunyan();
 
-  streams.push(loggingBunyan);
+  streams.push(loggingBunyan.stream());
 } else {
   const bunyanDebugStream = require("bunyan-debug-stream");
   const stream = bunyanDebugStream({
