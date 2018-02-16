@@ -1,7 +1,6 @@
 import path from "path";
 import bunyan from "bunyan";
 import LoggingBunyan from "@google-cloud/logging-bunyan";
-import bunyanDebugStream from "bunyan-debug-stream";
 
 const streams = [];
 
@@ -11,6 +10,7 @@ if (process.env.NODE_ENV === "production") {
 
   streams.push(loggingBunyan);
 } else {
+  const bunyanDebugStream = require("bunyan-debug-stream");
   const stream = bunyanDebugStream({
     basepath: path.resolve(__dirname, "..")
   });
