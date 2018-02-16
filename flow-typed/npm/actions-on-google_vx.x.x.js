@@ -46,9 +46,29 @@ declare module "actions-on-google" {
     getDeviceLocation(): ?DeviceLocation;
   }
 
+  declare export type Context<T> = {
+    name: string,
+    lifespan: number,
+    parameters: T
+  };
+
+  declare export type HandlerMap = Map<string, Handler>;
+
   declare export class DialogflowApp extends AssistantApp {
+    constructor(options: Object): DialogflowApp;
+
+    handleRequest(handler: Handler | HandlerMap): void;
+
     getArgument(argName: string): any;
     tell(speechResponse: Response): ?Object;
     buildRichResponse(otherResponse: ?RichResponse): RichResponse;
+    setContext(
+      name: string,
+      lifespan: ?number,
+      parameters: ?Object
+    ): null | void;
+    getContext<T: Object>(name: string): Context<T> | null;
   }
+
+  declare export type Handler = DialogflowApp => Promise<void> | void;
 }

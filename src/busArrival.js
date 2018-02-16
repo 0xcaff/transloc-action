@@ -1,6 +1,8 @@
 // @flow
 import { DialogflowApp } from "actions-on-google";
 
+export const BUS_ARRIVAL_INTENT = "bus.arrival";
+
 const BUS_ARGUMENT = "bus";
 const LOCATION_ARGUMENT = "location";
 

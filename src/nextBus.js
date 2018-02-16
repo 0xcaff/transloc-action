@@ -14,6 +14,9 @@ import {
 } from "./utils";
 
 import logger from "./logger";
+import { getArguments, recordContext } from "./helperHandler";
+
+export const NEXT_BUS_INTENT = "bus.next";
 
 const agencies = ["643"];
 
@@ -29,14 +32,24 @@ const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   logger.info("handling next bus intent");
 
-  const to = getToArg(app);
-  const from = getFromArg(app);
-  logger.info({ to, from }, "arguments");
+  const localArguments = {
+    to: getToArg(app),
+    from: getFromArg(app)
+  };
+  logger.info(localArguments, "local arguments");
+
+  const contextArguments = getArguments(app);
+  logger.info(contextArguments, "context arguments");
+
+  const { from, to } = {
+    ...localArguments,
+    ...contextArguments
+  };
 
   const { stops, routes } = await getStops({ agencies, include_routes: !!to });
   logger.info({ stops, routes }, "getStops response");
 
-  const fromStop: ?Stop = await resolveStop(app, from, stops);
+  const fromStop: ?Stop = await resolveStop(app, to, from, stops);
   if (!fromStop) {
     return;
   }
@@ -169,6 +182,7 @@ const findMatchingStop = (query: string, stops: Stop[]): ?Stop => {
 // current location.
 const resolveStop = async (
   app: DialogflowApp,
+  to: ?string,
   from: ?string,
   stops: Stop[]
 ): Promise<?Stop> => {
@@ -177,6 +191,7 @@ const resolveStop = async (
     if (!app.isPermissionGranted()) {
       logger.info("requesting location permission");
 
+      recordContext(NEXT_BUS_INTENT, { from, to }, app);
       const fromLocation = app.askForPermission(
         "To find the nearest stop",
         app.SupportedPermissions.DEVICE_PRECISE_LOCATION
