@@ -1,4 +1,6 @@
 [ignore]
+<PROJECT_ROOT>/node_modules/@google-cloud/functions-emulator/node_modules/protobufjs/src/bower.json
+<PROJECT_ROOT>/node_modules/grpc/node_modules/protobufjs/src/bower.json
 
 [include]
 
