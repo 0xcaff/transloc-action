@@ -2,5 +2,3 @@ lib
 
 /flow-typed/npm/**/*.js
 !/flow-typed/npm/actions-on-google_vx.x.x.js
-
-package-lock.json
