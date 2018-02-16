@@ -7,7 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.39",
+    "@google-cloud/logging-bunyan": "^0.7.0",
     "actions-on-google": "^1.8.2",
+    "bunyan": "^1.8.12",
     "transloc-api": "^1.0.8"
   },
   "devDependencies": {
@@ -21,6 +23,7 @@
     "@google-cloud/functions-emulator": "^1.0.0-alpha.29",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^22.2.2",
+    "bunyan-debug-stream": "^1.0.8",
     "flow-bin": "^0.65.0",
     "flow-typed": "^2.3.0",
     "jest": "^22.2.2",

@@ -13,6 +13,8 @@ import {
   pluralizedDurationSuffix
 } from "./utils";
 
+import logger from "./logger";
+
 const agencies = ["643"];
 
 export const FROM_ARGUMENT = "from";
@@ -25,18 +27,23 @@ export const TO_ARGUMENT = "to";
 const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
+  logger.info("handling next bus intent");
+
   const to = getToArg(app);
+  const from = getFromArg(app);
+  logger.info({ to, from }, "arguments");
 
   const { stops, routes } = await getStops({ agencies, include_routes: !!to });
-  console.log("Received Stops", stops, routes);
+  logger.info({ stops, routes }, "getStops response");
 
-  const from = getFromArg(app);
   const fromStop: ?Stop = await resolveStop(app, from, stops);
   if (!fromStop) {
     return;
   }
+  logger.info({ fromStop }, "resolved from stop");
 
   const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
+  logger.info({ arrivals }, "getArrivals response");
   if (!arrivals.length) {
     app.tell(`There are no busses arriving at ${fromStop.name}.`);
     return;
@@ -47,6 +54,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   let resolvedToStop = null;
   if (to) {
     const toStop = findMatchingStop(to, stops);
+    logger.info({ toStop }, "found matching to stop");
     if (!toStop) {
       app.tell(`I couldn't find a stop named "${to}."`);
       return;
@@ -54,7 +62,6 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
     if (!routes) {
       app.tell("Something went wrong. Try again later.");
-      console.error(`getStops didn't return routes`);
       return;
     }
 
@@ -62,7 +69,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
     filteredArrivals = arrivals.filter(({ route_id }) => {
       const route: ?RouteStops = routeStopsMap.get(route_id);
       if (!route) {
-        console.error(
+        logger.warn(
           `Invariant Violated, couldn't find route in routeStopsMap`,
           route_id,
           routeStopsMap
@@ -77,6 +84,8 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
     resolvedToStop = toStop;
   }
+
+  logger.info({ filteredArrivals }, "filter arrivals");
 
   createResponse(app, fromStop, resolvedToStop, filteredArrivals, routeMap);
 };
@@ -96,7 +105,7 @@ const createResponse = (
   const arrivalsInfo = topArrivals.map(({ route_id, timestamp }) => {
     const route = routes.get(route_id);
     if (!route) {
-      console.error(
+      logger.warn(
         "Couldn't find route information for arrival.",
         route_id,
         routes,
@@ -135,6 +144,7 @@ const createResponse = (
 // Fetches a list of routes and makes a map of route_id to route.
 const buildRouteMap = async (): Promise<Map<number, Route>> => {
   const { routes } = await getRoutes({ agencies });
+  logger.info({ routes }, "getRoutes response");
   return makeMap(routes);
 };
 
@@ -165,6 +175,8 @@ const resolveStop = async (
   if (!from) {
     // From not provided, try to use device location.
     if (!app.isPermissionGranted()) {
+      logger.info("requesting location permission");
+
       const fromLocation = app.askForPermission(
         "To find the nearest stop",
         app.SupportedPermissions.DEVICE_PRECISE_LOCATION
@@ -180,15 +192,16 @@ const resolveStop = async (
     }
 
     const location = app.getDeviceLocation();
+    logger.info({ location }, "location permission granted");
     if (!location) {
       app.tell(`I couldn't get your location.`);
-      console.error("Failed to get location.");
+      logger.info("failed to get location");
       return;
     }
 
     const { coordinates: deviceCoordinates } = location;
-
     const nearestStop = findNearestStop(deviceCoordinates, stops);
+    logger.info({ nearestStop }, "resolved nearest stop");
 
     if (nearestStop === null) {
       app.tell("There aren't any stops. I'm not sure what to do.");
@@ -199,6 +212,7 @@ const resolveStop = async (
   }
 
   const stop = findMatchingStop(from, stops);
+  logger.info({ stop }, "found matching stop");
   if (!stop) {
     app.tell(`I couldn't find a stop named "${from}."`);
     return;
