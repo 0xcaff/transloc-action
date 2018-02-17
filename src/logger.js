@@ -9,9 +9,6 @@ if (process.env.NODE_ENV === "production") {
   const loggingBunyan = new LoggingBunyan();
 
   streams.push(loggingBunyan.stream());
-
-  // Log to standard output also. This is sync and always flushed.
-  streams.push({ level: "info", type: "stream", stream: process.stdout });
 } else {
   const bunyanDebugStream = require("bunyan-debug-stream");
   const stream = bunyanDebugStream({
