@@ -201,6 +201,8 @@ const resolveStop = async (
         throw new TypeError(`Failed to ask for location permission.`);
       }
 
+      logger.info({ response: fromLocation }, "requesting location permission");
+
       // After this, the location is collected and the intent with the event
       // actions_intent_PERMISSION is triggered.
       return;
