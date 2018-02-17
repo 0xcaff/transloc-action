@@ -1,17 +1,9 @@
 // @flow
-import { CONTEXT_ARGUMENT_NAME } from "./helperHandler";
-
 jest.mock("./now");
 
 import type { DeviceLocation } from "actions-on-google";
-import {
-  FROM_ARGUMENT,
-  NEXT_BUS_INTENT,
-  nextBus,
-  TO_ARGUMENT
-} from "./nextBus";
+import { FROM_ARGUMENT, nextBus, TO_ARGUMENT } from "./nextBus";
 import { MockDialogflowApp } from "./mockDialogflowApp";
-import type { HelperContextParams } from "./helperHandler";
 
 const location: DeviceLocation = {
   coordinates: { latitude: 43.082978, longitude: -77.677036 },
@@ -64,19 +56,11 @@ describe("nextBus handler", () => {
   });
 
   it("should resolve a query without a given from and with a to location", async () => {
-    const app = new MockDialogflowApp(new Map());
+    const app = new MockDialogflowApp(
+      new Map([[TO_ARGUMENT, "Park Point South"]])
+    );
     app.permissionGranted = true;
     app.deviceLocation = location;
-    app.context.set(CONTEXT_ARGUMENT_NAME, {
-      name: CONTEXT_ARGUMENT_NAME,
-      lifespan: 1,
-      parameters: ({
-        handler: NEXT_BUS_INTENT,
-        originalArguments: {
-          [TO_ARGUMENT]: "Park Point South"
-        }
-      }: HelperContextParams)
-    });
 
     await nextBus((app: any));
 

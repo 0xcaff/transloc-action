@@ -2,12 +2,7 @@
 
 import { DialogflowApp } from "actions-on-google";
 
-import type {
-  Response,
-  DeviceLocation,
-  Permission,
-  Context
-} from "actions-on-google";
+import type { Response, DeviceLocation, Permission } from "actions-on-google";
 import { RichResponse } from "actions-on-google/response-builder";
 
 type RecordedPermission = {
@@ -29,7 +24,6 @@ export class MockDialogflowApp {
   args: Map<string, any>;
   permissionGranted: boolean = false;
   deviceLocation: ?DeviceLocation;
-  context: Map<string, Context<Object>> = new Map();
 
   constructor(args: Map<string, any> = new Map()) {
     this.args = args;
@@ -67,16 +61,6 @@ export class MockDialogflowApp {
   };
 
   getDeviceLocation = (): ?DeviceLocation => this.deviceLocation;
-
-  getContext = (name: string) => this.context.get(name);
-
-  setContext = (name: string, lifespan: ?number, params: Object) => {
-    this.context.set(name, {
-      name,
-      lifespan: lifespan || 0,
-      parameters: params
-    });
-  };
 
   SupportedPermissions = {
     ...DialogflowApp.SupportedPermissions
