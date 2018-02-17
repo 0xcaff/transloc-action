@@ -16,6 +16,7 @@ import {
 import logger from "./logger";
 
 export const NEXT_BUS_INTENT = "bus.next";
+export const NEXT_BUS_LOCATION_INTENT = "bus.next.location";
 
 const agencies = ["643"];
 
