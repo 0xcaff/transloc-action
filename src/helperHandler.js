@@ -26,7 +26,7 @@ export const recordContext = (
   args: Object,
   app: DialogflowApp
 ): void => {
-  const lifespan = 2;
+  const lifespan = 1;
   app.setContext(handler, lifespan, {
     handler,
     originalArguments: args
