@@ -159,18 +159,21 @@ const createResponse = (
     )
     .join("; ");
 
+  let predicate: string = "";
   if (!to) {
+    predicate = `arriving at ${from.name}`;
+  } else {
+    predicate = `traveling from ${from.name} to ${to.name}`;
+  }
+
+  if (arrivals.length) {
     app.tell(
       `The following ${pluralizeByCount("bus", arrivals.length)} ${pluralizeDo(
         arrivals.length
-      )} arriving at ${from.name}. ${textArrivals}.`
+      )} ${predicate}. ${textArrivals}.`
     );
   } else {
-    app.tell(
-      `The following ${pluralizeByCount("bus", arrivals.length)} ${pluralizeDo(
-        arrivals.length
-      )} traveling from ${from.name} to ${to.name}. ${textArrivals}.`
-    );
+    app.tell(`There are no buses ${predicate}.`);
   }
 };
 

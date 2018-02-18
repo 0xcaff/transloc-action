@@ -67,5 +67,21 @@ describe("nextBus handler", () => {
     expect(app.response).toMatchSnapshot();
   });
 
+  it(
+    "should resolve a query with with a given from without any buses " +
+      "traveling to the destination",
+    async () => {
+      const app = new MockDialogflowApp(
+        new Map([[FROM_ARGUMENT, "Gleason Circle"], [TO_ARGUMENT, "Target"]])
+      );
+
+      await nextBus((app: any));
+
+      expect(app.response).toMatchSnapshot();
+    }
+  );
+
+  // TODO: should resolve a query with a given from without any busses
+  // TODO: Should resolve a query which returns a single bus
   // TODO: Test Failure Case With Specified From and To
 });

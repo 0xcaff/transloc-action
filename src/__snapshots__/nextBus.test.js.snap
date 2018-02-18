@@ -25,6 +25,13 @@ Object {
 }
 `;
 
+exports[`nextBus handler should resolve a query with with a given from without any buses traveling to the destination 1`] = `
+Object {
+  "response": "There are no buses traveling from Gleason Circle to Target.",
+  "type": "TELL",
+}
+`;
+
 exports[`nextBus handler should resolve a query without a given from and with a to location 1`] = `
 Object {
   "response": "The following buses are traveling from Gleason Circle to Park Point South. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
