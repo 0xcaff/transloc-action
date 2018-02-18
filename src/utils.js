@@ -99,6 +99,14 @@ export const pluralize = (s: string): string => {
   return `${s}s`;
 };
 
+export const pluralizeDo = (count: number) => {
+  if (count > 1) {
+    return "are";
+  }
+
+  return "is";
+};
+
 export const mustGet = <K: any, V>(map: Map<K, V>, k: K): V => {
   const result = map.get(k);
   if (!result) {

@@ -11,7 +11,8 @@ import {
   makeMap,
   timeUntil,
   mustGet,
-  pluralizeByCount
+  pluralizeByCount,
+  pluralizeDo
 } from "./utils";
 
 import logger from "./logger";
@@ -160,17 +161,15 @@ const createResponse = (
 
   if (!to) {
     app.tell(
-      `The following ${pluralizeByCount(
-        "bus",
+      `The following ${pluralizeByCount("bus", arrivals.length)} ${pluralizeDo(
         arrivals.length
-      )} are arriving at ${from.name}. ${textArrivals}.`
+      )} arriving at ${from.name}. ${textArrivals}.`
     );
   } else {
     app.tell(
-      `The following ${pluralizeByCount(
-        "bus",
+      `The following ${pluralizeByCount("bus", arrivals.length)} ${pluralizeDo(
         arrivals.length
-      )} are traveling from ${from.name} to ${to.name}. ${textArrivals}.`
+      )} traveling from ${from.name} to ${to.name}. ${textArrivals}.`
     );
   }
 };
