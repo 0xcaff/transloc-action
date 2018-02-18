@@ -10,8 +10,8 @@ import {
   lowestCost,
   makeMap,
   timeUntil,
-  pluralizedDurationSuffix,
-  mustGet
+  mustGet,
+  pluralizeByCount
 } from "./utils";
 
 import logger from "./logger";
@@ -151,21 +151,26 @@ const createResponse = (
   const textArrivals = arrivalsInfo
     .map(
       ({ duration, routeName }) =>
-        `${routeName} in ${duration.count} ${pluralizedDurationSuffix(
-          duration
+        `${routeName} in ${duration.count} ${pluralizeByCount(
+          duration.unit,
+          duration.count
         )}`
     )
     .join("; ");
 
   if (!to) {
     app.tell(
-      `The following buses are arriving at ${from.name}. ${textArrivals}.`
+      `The following ${pluralizeByCount(
+        "bus",
+        arrivals.length
+      )} are arriving at ${from.name}. ${textArrivals}.`
     );
   } else {
     app.tell(
-      `The following buses are traveling from ${from.name} to ${
-        to.name
-      }. ${textArrivals}.`
+      `The following ${pluralizeByCount(
+        "bus",
+        arrivals.length
+      )} are traveling from ${from.name} to ${to.name}. ${textArrivals}.`
     );
   }
 };

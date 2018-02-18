@@ -81,15 +81,23 @@ export const simplifyDuration = (time: number): SimpleDuration => {
   return { unit: "second", count: time };
 };
 
-export const pluralizedDurationSuffix = ({ count, unit }: SimpleDuration) => {
+export const pluralizeByCount = (str: string, count: number): string => {
   if (count > 1) {
-    return simplePluralize(unit);
+    return pluralize(str);
   }
 
-  return unit;
+  return str;
 };
 
-const simplePluralize = (unit: string): string => `${unit}s`;
+const SPECIAL_ENDINGS = ["s", "ss", "sh", "ch", "x", "z"];
+
+export const pluralize = (s: string): string => {
+  if (SPECIAL_ENDINGS.find(ending => s.endsWith(ending))) {
+    return `${s}es`;
+  }
+
+  return `${s}s`;
+};
 
 export const mustGet = <K: any, V>(map: Map<K, V>, k: K): V => {
   const result = map.get(k);

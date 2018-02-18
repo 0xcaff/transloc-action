@@ -5,8 +5,9 @@ import {
   distance,
   lowestCost,
   makeMap,
-  pluralizedDurationSuffix,
-  simplifyDuration
+  simplifyDuration,
+  pluralize,
+  pluralizeByCount
 } from "./utils";
 
 type IdentifiableType = {
@@ -77,11 +78,15 @@ describe("simplify duration", () => {
 });
 
 it("should not pluralize singular units", () =>
-  expect(pluralizedDurationSuffix({ count: 1, unit: "second" })).toBe(
-    "second"
-  ));
+  expect(pluralizeByCount("second", 1)).toBe("second"));
 
 it("should pluralize non-singular units", () =>
-  expect(pluralizedDurationSuffix({ count: 10, unit: "second" })).toBe(
-    "seconds"
-  ));
+  expect(pluralizeByCount("second", 10)).toBe("seconds"));
+
+describe("pluralize", () => {
+  it("should pluralize regular nouns", () =>
+    expect(pluralize("second")).toEqual("seconds"));
+
+  it("should pluralize nouns ending in -es", () =>
+    expect(pluralize("bus")).toEqual("buses"));
+});
