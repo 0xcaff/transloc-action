@@ -10,7 +10,8 @@ import {
   lowestCost,
   makeMap,
   timeUntil,
-  pluralizedDurationSuffix
+  pluralizedDurationSuffix,
+  mustGet
 } from "./utils";
 
 import logger from "./logger";
@@ -29,6 +30,56 @@ export const TO_ARGUMENT = "to";
 
 const getToArg = (app: DialogflowApp): ?string => app.getArgument(TO_ARGUMENT);
 
+type ArrivalWithRoute = Arrival & { +route: Route };
+type ArrivalWithRouteStops = Arrival & { +route: RouteWithStop };
+type RouteWithStop = Route & RouteStops;
+
+const getArrivalsWithRoute = async (
+  stop: Stop
+): Promise<ArrivalWithRoute[]> => {
+  const arrivalsResponse = await getArrivals({ agencies, stop_id: stop.id });
+  logger.info({ arrivalsResponse }, "getArrivals response");
+  const { arrivals } = arrivalsResponse;
+
+  const routesResponse = await getRoutes({ agencies });
+  logger.info({ routesResponse }, "getRoutes response");
+  const { routes } = routesResponse;
+  const routesMap: Map<number, Route> = makeMap(routes);
+
+  return arrivals.map(arrival => ({
+    ...arrival,
+    get route(): Route {
+      return mustGet(routesMap, arrival.route_id);
+    }
+  }));
+};
+
+const stitchRouteStops = (
+  arrivals: ArrivalWithRoute[],
+  routeStops: RouteStops[]
+): $ReadOnlyArray<ArrivalWithRouteStops> => {
+  const routeStopsMap: Map<number, RouteStops> = makeMap(routeStops);
+
+  return arrivals.map(
+    (arrival: ArrivalWithRoute): ArrivalWithRouteStops =>
+      (({
+        ...arrival,
+        get route(): RouteWithStop {
+          const route = arrival.route;
+          const routeStops = mustGet(routeStopsMap, arrival.route_id);
+
+          return {
+            ...route,
+            ...routeStops
+          };
+        }
+      }: any): ArrivalWithRouteStops)
+  );
+};
+
+const tellUnknownStop = (stopName: string, app: DialogflowApp) =>
+  app.tell(`I couldn't find a stop named "${stopName}."`);
+
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   logger.info("handling next bus intent");
 
@@ -45,78 +96,53 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   }
   logger.info({ fromStop }, "resolved from stop");
 
-  const { arrivals } = await getArrivals({ agencies, stop_id: fromStop.id });
-  logger.info({ arrivals }, "getArrivals response");
+  const arrivals = await getArrivalsWithRoute(fromStop);
   if (!arrivals.length) {
     app.tell(`There are no buses arriving at ${fromStop.name}.`);
     return;
   }
 
-  const routeMap: Map<number, Route> = await buildRouteMap();
-  let filteredArrivals = arrivals;
+  let filteredArrivals: $ReadOnlyArray<ArrivalWithRoute> = arrivals;
   let resolvedToStop = null;
   if (to) {
     const toStop = findMatchingStop(to, stops);
     logger.info({ toStop }, "found matching to stop");
     if (!toStop) {
-      app.tell(`I couldn't find a stop named "${to}."`);
+      tellUnknownStop(to, app);
       return;
     }
 
     if (!routes) {
-      app.tell("Something went wrong. Try again later.");
-      return;
+      throw new TypeError(`The API response didn't include routes.`);
     }
 
-    const routeStopsMap: Map<number, RouteStops> = makeMap(routes);
-    filteredArrivals = arrivals.filter(({ route_id }) => {
-      const route: ?RouteStops = routeStopsMap.get(route_id);
-      if (!route) {
-        logger.warn(
-          `Invariant Violated, couldn't find route in routeStopsMap`,
-          route_id,
-          routeStopsMap
-        );
-        return false;
-      }
-
-      const hasStopInRoute =
-        route.stops.findIndex(stopId => stopId === toStop.id) !== -1;
-      return hasStopInRoute;
-    });
+    const stitchedRoutes = stitchRouteStops(arrivals, routes);
+    filteredArrivals = stitchedRoutes.filter(arrival =>
+      arrival.route.stops.find(id => id === toStop.id)
+    );
 
     resolvedToStop = toStop;
   }
 
   logger.info({ filteredArrivals }, "filter arrivals");
 
-  createResponse(app, fromStop, resolvedToStop, filteredArrivals, routeMap);
+  createResponse(app, fromStop, resolvedToStop, filteredArrivals);
 };
 
 const createResponse = (
   app: DialogflowApp,
   from: Stop,
   to: ?Stop,
-  arrivals: Arrival[],
-  routes: Map<number, Route>
+  inputArrivals: $ReadOnlyArray<ArrivalWithRoute>
 ): void => {
+  const arrivals = inputArrivals.slice();
+
   // Sort arrivals by timestamp in ascending order (smallest first).
   arrivals.sort((a, b) => a.timestamp - b.timestamp);
 
   const topArrivals = arrivals.slice(0, 5);
 
-  const arrivalsInfo = topArrivals.map(({ route_id, timestamp }) => {
-    const route = routes.get(route_id);
-    if (!route) {
-      logger.warn(
-        "Couldn't find route information for arrival.",
-        route_id,
-        routes,
-        arrivals
-      );
-      throw new TypeError("Couldn't find route information for arrival.");
-    }
-
+  const arrivalsInfo = topArrivals.map(({ route, timestamp }) => {
     const duration = simplifyDuration(timeUntil(timestamp));
 
     return { duration, routeName: route.long_name };
@@ -142,13 +168,6 @@ const createResponse = (
       }. ${textArrivals}.`
     );
   }
-};
-
-// Fetches a list of routes and makes a map of route_id to route.
-const buildRouteMap = async (): Promise<Map<number, Route>> => {
-  const { routes } = await getRoutes({ agencies });
-  logger.info({ routes }, "getRoutes response");
-  return makeMap(routes);
 };
 
 const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
@@ -217,7 +236,7 @@ const resolveStop = async (
   const stop = findMatchingStop(from, stops);
   logger.info({ stop }, "found matching stop");
   if (!stop) {
-    app.tell(`I couldn't find a stop named "${from}."`);
+    tellUnknownStop(from, app);
     return;
   }
 

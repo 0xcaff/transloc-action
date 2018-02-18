@@ -90,3 +90,14 @@ export const pluralizedDurationSuffix = ({ count, unit }: SimpleDuration) => {
 };
 
 const simplePluralize = (unit: string): string => `${unit}s`;
+
+export const mustGet = <K: any, V>(map: Map<K, V>, k: K): V => {
+  const result = map.get(k);
+  if (!result) {
+    throw new TypeError(
+      `Failed to get value from map. Map: ${map.toString()}, Key: ${k}.`
+    );
+  }
+
+  return result;
+};
