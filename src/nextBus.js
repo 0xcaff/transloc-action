@@ -194,6 +194,46 @@ const findMatchingStop = (query: string, stops: Stop[]): ?Stop => {
   return stop;
 };
 
+// Gets the nearest stop to the current location, requesting permission if
+// needed.
+const getStopByLocation = (stops: Stop[], app: DialogflowApp): ?Stop => {
+  if (!app.isPermissionGranted()) {
+    logger.info("requesting location permission");
+
+    const fromLocation = app.askForPermission(
+      "To find the nearest stop",
+      app.SupportedPermissions.DEVICE_PRECISE_LOCATION
+    );
+
+    if (fromLocation === null) {
+      throw new TypeError(`Failed to ask for location permission.`);
+    }
+
+    // After this, the location is collected and the intent with the event
+    // actions_intent_PERMISSION is triggered.
+    return;
+  }
+
+  const location = app.getDeviceLocation();
+  logger.info({ location }, "location permission granted");
+  if (!location) {
+    app.tell(`I couldn't get your location.`);
+    logger.info("failed to get location");
+    return;
+  }
+
+  const { coordinates: deviceCoordinates } = location;
+  const nearestStop = findNearestStop(deviceCoordinates, stops);
+  logger.info({ nearestStop }, "resolved nearest stop");
+
+  if (nearestStop === null) {
+    app.tell("There aren't any stops. I'm not sure what to do.");
+    return;
+  }
+
+  return nearestStop;
+};
+
 // Tries to find the nearest stop to `from`. If not provided, uses the
 // current location.
 const resolveStop = async (
@@ -203,41 +243,7 @@ const resolveStop = async (
 ): Promise<?Stop> => {
   if (!from) {
     // From not provided, try to use device location.
-    if (!app.isPermissionGranted()) {
-      logger.info("requesting location permission");
-
-      const fromLocation = app.askForPermission(
-        "To find the nearest stop",
-        app.SupportedPermissions.DEVICE_PRECISE_LOCATION
-      );
-
-      if (fromLocation === null) {
-        throw new TypeError(`Failed to ask for location permission.`);
-      }
-
-      // After this, the location is collected and the intent with the event
-      // actions_intent_PERMISSION is triggered.
-      return;
-    }
-
-    const location = app.getDeviceLocation();
-    logger.info({ location }, "location permission granted");
-    if (!location) {
-      app.tell(`I couldn't get your location.`);
-      logger.info("failed to get location");
-      return;
-    }
-
-    const { coordinates: deviceCoordinates } = location;
-    const nearestStop = findNearestStop(deviceCoordinates, stops);
-    logger.info({ nearestStop }, "resolved nearest stop");
-
-    if (nearestStop === null) {
-      app.tell("There aren't any stops. I'm not sure what to do.");
-      return;
-    }
-
-    return nearestStop;
+    return getStopByLocation(stops, app);
   }
 
   const stop = findMatchingStop(from, stops);
