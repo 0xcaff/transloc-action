@@ -57,147 +57,219 @@ exports[`nextBus handler should return a list on compatible surfaces 1`] = `
 Object {
   "list": List {
     "items": Array [
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177288,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "The Province",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177290,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Residence Halls",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177292,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Colony Manor",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177296,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Marketplace Mall",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177298,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Wegmans",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177314,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "UC West",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4177316,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Riverknoll South",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197446,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Gleason Circle",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197450,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Perkins Green",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197454,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Barnes & Noble",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197466,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Wal-Mart",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197480,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Racquet Club",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4197484,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Global Village",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209568,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Park Point North",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209570,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Park Point South",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209572,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "South Town Plaza",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209574,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Target",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209576,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Regal Cinemas",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209578,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Jefferson & Scutti",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209580,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Jefferson Plaza",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209582,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "RIT Inn",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4209584,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Tech Park / John St.",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4212882,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Lot B",
       },
-      Object {
-        "optionItem": Object {
+      OptionItem {
+        "description": undefined,
+        "image": undefined,
+        "optionInfo": Object {
           "key": "{\\"id\\":4212884,\\"type\\":\\"to\\"}",
+          "synonyms": Array [],
         },
         "title": "Corner Lot B",
       },

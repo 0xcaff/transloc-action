@@ -9,7 +9,11 @@ import type {
   SurfaceCapability,
   SimpleResponse
 } from "actions-on-google";
-import { RichResponse, List } from "actions-on-google/response-builder";
+import {
+  RichResponse,
+  List,
+  OptionItem
+} from "actions-on-google/response-builder";
 
 type RecordedPermission = {
   context: string,
@@ -86,6 +90,20 @@ export class MockDialogflowApp {
   };
 
   buildList = (title: string): List => new List(title);
+
+  buildOptionItem = (
+    key: ?string,
+    synonyms: string | string[] | void
+  ): OptionItem => {
+    const optionItem = new OptionItem();
+    if (key) {
+      optionItem.setKey(key);
+    }
+    if (synonyms) {
+      optionItem.addSynonyms(synonyms);
+    }
+    return optionItem;
+  };
 
   getDeviceLocation = (): ?DeviceLocation => this.deviceLocation;
 

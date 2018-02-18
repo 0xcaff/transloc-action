@@ -42,16 +42,13 @@ declare module "actions-on-google" {
     addSimpleResponse(response: string | SimpleResponse): RichResponse;
   }
 
-  declare export type OptionInfo = {
-    key: string,
-    synonyms?: string[]
-  };
+  declare export class OptionItem {
+    constructor(other: ?OptionItem): OptionItem;
 
-  declare export type OptionItem = {
-    optionItem: OptionInfo,
-    title: string,
-    description?: string
-  };
+    setTitle(title: string): OptionItem;
+
+    setDescription(description: string): OptionItem;
+  }
 
   declare export class List {
     constructor(otherList: List | string | OptionItem[] | void): List;
@@ -77,6 +74,11 @@ declare module "actions-on-google" {
     getDeviceLocation(): ?DeviceLocation;
 
     buildList(list: string): List;
+
+    buildOptionItem(
+      key: ?string,
+      synonyms: string | string[] | void
+    ): OptionItem;
   }
 
   declare export type Context<T> = {

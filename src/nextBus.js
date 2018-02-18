@@ -1,5 +1,5 @@
 // @flow
-import type { DialogflowApp, OptionInfo, OptionItem } from "actions-on-google";
+import type { DialogflowApp, OptionItem } from "actions-on-google";
 import type { Arrival, Position, Route, Stop, RouteStops } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 import type { Coords } from "./utils";
@@ -98,12 +98,16 @@ const handleUnknownStops = (
 
   // Display List of Stops
   const list = app.buildList("Stops").addItems(
-    potentialStops.map((stop: Stop): OptionItem => ({
-      optionItem: {
-        key: JSON.stringify(({ id: stop.id, type }: OptionKey))
-      },
-      title: stop.name
-    }))
+    potentialStops.map((stop: Stop): OptionItem => {
+      const option = app.buildOptionItem(
+        JSON.stringify(({ id: stop.id, type }: OptionKey))
+      );
+
+      option.setTitle(stop.name);
+      option.setDescription(stop.description);
+
+      return option;
+    })
   );
 
   app.askWithList(failedToFindStopMsg, list);
