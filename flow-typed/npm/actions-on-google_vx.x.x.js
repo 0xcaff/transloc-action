@@ -2,11 +2,21 @@
 // flow-typed version: <<STUB>>/actions-on-google_v1.8.2/flow_v0.65.0
 
 declare module "actions-on-google" {
-  declare export type Permission =
-    | "NAME"
-    | "DEVICE_PRECISE_LOCATION"
-    | "DEVICE_COARSE_LOCATION"
-    | "UPDATE";
+  declare export opaque type SupportedPermission;
+
+  declare type SupportedPermissions = {
+    NAME: SupportedPermission,
+    DEVICE_PRECISE_LOCATION: SupportedPermission,
+    DEVICE_COARSE_LOCATION: SupportedPermission,
+    UPDATE: SupportedPermission
+  };
+
+  declare export opaque type SurfaceCapability;
+
+  declare type SurfaceCapabilities = {
+    AUDIO_OUTPUT: SurfaceCapability,
+    SCREEN_OUTPUT: SurfaceCapability
+  };
 
   declare export type Coordinates = {
     latitude: number,
@@ -32,18 +42,41 @@ declare module "actions-on-google" {
     addSimpleResponse(response: string | SimpleResponse): RichResponse;
   }
 
+  declare export type OptionInfo = {
+    key: string,
+    synonyms?: string[]
+  };
+
+  declare export type OptionItem = {
+    optionItem: OptionInfo,
+    title: string,
+    description?: string
+  };
+
+  declare export class List {
+    constructor(otherList: List | string | OptionItem[] | void): List;
+
+    title: string;
+    items: OptionItem[];
+
+    addItems(OptionItem | OptionItem[]): List;
+    setTitle(title: string): List;
+  }
+
   declare export class AssistantApp {
-    static SupportedPermissions: { [Permission]: Permission };
-    SupportedPermissions: { [Permission]: Permission };
+    SupportedPermissions: SupportedPermissions;
+    SurfaceCapabilities: SurfaceCapabilities;
 
     isPermissionGranted(): boolean;
     askForPermission(
       context: string,
-      permission: Permission,
+      permission: SupportedPermission,
       dialogState?: Object
     ): ?Object;
 
     getDeviceLocation(): ?DeviceLocation;
+
+    buildList(list: string): List;
   }
 
   declare export type Context<T> = {
@@ -68,6 +101,15 @@ declare module "actions-on-google" {
       parameters: ?Object
     ): null | void;
     getContext<T: Object>(name: string): Context<T> | null;
+
+    hasSurfaceCapability(cap: SurfaceCapability): boolean;
+
+    askWithList(
+      inputPrompt: string | RichResponse | SimpleResponse,
+      list: List
+    ): Object;
+
+    getSelectedOption(): ?string;
   }
 
   declare export type Handler = DialogflowApp => Promise<void> | void;

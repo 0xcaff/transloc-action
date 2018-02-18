@@ -1,11 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`nextBus handler should not return a list on incompatible surfaces 1`] = `
+Object {
+  "response": "I couldn't find a stop named \\"Unknown.\\"",
+  "type": "TELL",
+}
+`;
+
 exports[`nextBus handler should request the location when from is not provided 1`] = `
 Object {
   "permission": Object {
     "context": "To find the nearest stop",
     "dialogState": undefined,
-    "permission": undefined,
+    "permission": "DEVICE_PRECISE_LOCATION",
   },
   "type": "ASK_FOR_PERMISSION",
 }
@@ -42,6 +49,168 @@ Object {
 exports[`nextBus handler should resolve a query without the from field with location provided 1`] = `
 Object {
   "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`nextBus handler should return a list on compatible surfaces 1`] = `
+Object {
+  "list": List {
+    "items": Array [
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177288,\\"type\\":\\"to\\"}",
+        },
+        "title": "The Province",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177290,\\"type\\":\\"to\\"}",
+        },
+        "title": "Residence Halls",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177292,\\"type\\":\\"to\\"}",
+        },
+        "title": "Colony Manor",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177296,\\"type\\":\\"to\\"}",
+        },
+        "title": "Marketplace Mall",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177298,\\"type\\":\\"to\\"}",
+        },
+        "title": "Wegmans",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177314,\\"type\\":\\"to\\"}",
+        },
+        "title": "UC West",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4177316,\\"type\\":\\"to\\"}",
+        },
+        "title": "Riverknoll South",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197446,\\"type\\":\\"to\\"}",
+        },
+        "title": "Gleason Circle",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197450,\\"type\\":\\"to\\"}",
+        },
+        "title": "Perkins Green",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197454,\\"type\\":\\"to\\"}",
+        },
+        "title": "Barnes & Noble",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197466,\\"type\\":\\"to\\"}",
+        },
+        "title": "Wal-Mart",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197480,\\"type\\":\\"to\\"}",
+        },
+        "title": "Racquet Club",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4197484,\\"type\\":\\"to\\"}",
+        },
+        "title": "Global Village",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209568,\\"type\\":\\"to\\"}",
+        },
+        "title": "Park Point North",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209570,\\"type\\":\\"to\\"}",
+        },
+        "title": "Park Point South",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209572,\\"type\\":\\"to\\"}",
+        },
+        "title": "South Town Plaza",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209574,\\"type\\":\\"to\\"}",
+        },
+        "title": "Target",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209576,\\"type\\":\\"to\\"}",
+        },
+        "title": "Regal Cinemas",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209578,\\"type\\":\\"to\\"}",
+        },
+        "title": "Jefferson & Scutti",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209580,\\"type\\":\\"to\\"}",
+        },
+        "title": "Jefferson Plaza",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209582,\\"type\\":\\"to\\"}",
+        },
+        "title": "RIT Inn",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4209584,\\"type\\":\\"to\\"}",
+        },
+        "title": "Tech Park / John St.",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4212882,\\"type\\":\\"to\\"}",
+        },
+        "title": "Lot B",
+      },
+      Object {
+        "optionItem": Object {
+          "key": "{\\"id\\":4212884,\\"type\\":\\"to\\"}",
+        },
+        "title": "Corner Lot B",
+      },
+    ],
+    "title": "Stops",
+  },
+  "type": "ASK_WITH_LIST",
+}
+`;
+
+exports[`nextBus handler should select the value for the from field using the list key 1`] = `
+Object {
+  "response": "The following buses are traveling from Gleason Circle to Park Point North. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
   "type": "TELL",
 }
 `;

@@ -1,5 +1,5 @@
 // @flow
-import type { DialogflowApp } from "actions-on-google";
+import type { DialogflowApp, OptionInfo, OptionItem } from "actions-on-google";
 import type { Arrival, Position, Route, Stop, RouteStops } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 import type { Coords } from "./utils";
@@ -19,6 +19,7 @@ import logger from "./logger";
 
 export const NEXT_BUS_INTENT = "bus.next";
 export const NEXT_BUS_LOCATION_INTENT = "bus.next.location";
+export const NEXT_BUS_OPTION_INTENT = "bus.next.option";
 
 const agencies = ["643"];
 
@@ -78,8 +79,35 @@ const stitchRouteStops = (
   );
 };
 
-const tellUnknownStop = (stopName: string, app: DialogflowApp) =>
-  app.tell(`I couldn't find a stop named "${stopName}."`);
+type OptionKey = {
+  id: number,
+  type: string
+};
+
+const handleUnknownStops = (
+  potentialStops: Stop[],
+  type: string,
+  stopName: string,
+  app: DialogflowApp
+): void => {
+  const failedToFindStopMsg: string = `I couldn't find a stop named "${stopName}."`;
+  if (!app.hasSurfaceCapability(app.SurfaceCapabilities.SCREEN_OUTPUT)) {
+    app.tell(failedToFindStopMsg);
+    return;
+  }
+
+  // Display List of Stops
+  const list = app.buildList("Stops").addItems(
+    potentialStops.map((stop: Stop): OptionItem => ({
+      optionItem: {
+        key: JSON.stringify(({ id: stop.id, type }: OptionKey))
+      },
+      title: stop.name
+    }))
+  );
+
+  app.askWithList(failedToFindStopMsg, list);
+};
 
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   logger.info("handling next bus intent");
@@ -91,7 +119,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   const { stops, routes } = await getStops({ agencies, include_routes: !!to });
   logger.info({ stops, routes }, "getStops response");
 
-  const fromStop: ?Stop = await resolveStop(app, from, stops);
+  const fromStop: ?Stop = resolveFromStop(app, from, stops);
   if (!fromStop) {
     return;
   }
@@ -106,10 +134,11 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   let filteredArrivals: $ReadOnlyArray<ArrivalWithRoute> = arrivals;
   let resolvedToStop = null;
   if (to) {
-    const toStop = findMatchingStop(to, stops);
+    const toStop =
+      getStopFromOption(stops, TO_ARGUMENT, app) || findMatchingStop(to, stops);
     logger.info({ toStop }, "found matching to stop");
     if (!toStop) {
-      tellUnknownStop(to, app);
+      handleUnknownStops(stops, TO_ARGUMENT, to, app);
       return;
     }
 
@@ -234,13 +263,45 @@ const getStopByLocation = (stops: Stop[], app: DialogflowApp): ?Stop => {
   return nearestStop;
 };
 
+const getStopFromOption = (
+  stops: Stop[],
+  argumentType: string,
+  app: DialogflowApp
+): ?Stop => {
+  logger.info({ argumentType }, "getting from option");
+  const selectedOption = app.getSelectedOption();
+  logger.info({ selectedOption }, "selected option");
+  if (!selectedOption) {
+    return;
+  }
+
+  // Try to get from argument.
+  const { id, type } = JSON.parse(selectedOption);
+  if (type !== argumentType) {
+    return;
+  }
+
+  const stop = stops.find((stop: Stop) => stop.id === id);
+  if (!stop) {
+    return;
+  }
+
+  logger.info({ argumentType, stop }, "got stop from option");
+  return stop;
+};
+
 // Tries to find the nearest stop to `from`. If not provided, uses the
 // current location.
-const resolveStop = async (
+const resolveFromStop = (
   app: DialogflowApp,
   from: ?string,
   stops: Stop[]
-): Promise<?Stop> => {
+): ?Stop => {
+  const optionStop = getStopFromOption(stops, FROM_ARGUMENT, app);
+  if (optionStop) {
+    return optionStop;
+  }
+
   if (!from) {
     // From not provided, try to use device location.
     return getStopByLocation(stops, app);
@@ -249,7 +310,7 @@ const resolveStop = async (
   const stop = findMatchingStop(from, stops);
   logger.info({ stop }, "found matching stop");
   if (!stop) {
-    tellUnknownStop(from, app);
+    handleUnknownStops(stops, FROM_ARGUMENT, from, app);
     return;
   }
 
