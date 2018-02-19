@@ -110,9 +110,9 @@ describe("nextBus handler", () => {
     expect(app.response).toMatchSnapshot();
   });
 
-  it("should select the value for the from field using the list key", async () => {
+  it(`should select the value for the "to" field using the list key`, async () => {
     const app = new MockDialogflowApp(
-      new Map([[FROM_ARGUMENT, "Gleason Circle"], [TO_ARGUMENT, "Unknown"]])
+      new Map([[FROM_ARGUMENT, "Gleason Circle"]])
     );
 
     const realApp: DialogflowApp = (app: any);
@@ -123,6 +123,19 @@ describe("nextBus handler", () => {
     expect(app.response).toMatchSnapshot();
   });
 
+  it(`should select the value for the "from" field using the list key`, async () => {
+    const app = new MockDialogflowApp();
+
+    const realApp: DialogflowApp = (app: any);
+    app.selectedOption = JSON.stringify({ id: 4197446, type: FROM_ARGUMENT });
+
+    await nextBus(realApp);
+
+    expect(app.response).toMatchSnapshot();
+
+  });
+
+  // TODO: should resolve a query with a selected to and a location based from
   // TODO: should resolve a query with a given from without any busses
   // TODO: Should resolve a query which returns a single bus
   // TODO: Test Failure Case With Specified From and To
