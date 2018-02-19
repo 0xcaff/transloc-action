@@ -144,26 +144,25 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   }
 
   let filteredArrivals: $ReadOnlyArray<ArrivalWithRoute> = arrivals;
-  let resolvedToStop = null;
-  if (to) {
-    const toStop =
-      getStopFromOption(stops, TO_ARGUMENT, app) || findMatchingStop(to, stops);
-    logger.info({ toStop }, "found matching to stop");
-    if (!toStop) {
-      handleUnknownStops(stops, TO_ARGUMENT, to, app);
-      return;
-    }
+  const optionStop: ?Stop = getStopFromOption(stops, TO_ARGUMENT, app);
+  const matchingStop: ?Stop = findMatchingStop(to, stops);
+  let resolvedToStop: ?Stop = optionStop || matchingStop;
 
+  if (to && !matchingStop) {
+    handleUnknownStops(stops, TO_ARGUMENT, to, app);
+    return;
+  }
+
+  if (resolvedToStop) {
+    logger.info({ resolvedToStop }, "found matching to stop");
     if (!routes) {
       throw new TypeError(`The API response didn't include routes.`);
     }
 
     const stitchedRoutes = stitchRouteStops(arrivals, routes);
     filteredArrivals = stitchedRoutes.filter(arrival =>
-      arrival.route.stops.find(id => id === toStop.id)
+      arrival.route.stops.find(id => id === resolvedToStop.id)
     );
-
-    resolvedToStop = toStop;
   }
 
   logger.info({ filteredArrivals }, "filter arrivals");
@@ -226,7 +225,11 @@ const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
     return distanceToStop;
   });
 
-const findMatchingStop = (query: string, stops: Stop[]): ?Stop => {
+const findMatchingStop = (query: ?string, stops: Stop[]): ?Stop => {
+  if (!query) {
+    return;
+  }
+
   const normalizedFrom = query.toLowerCase().trim();
   const stop = stops.find(
     element => element.name.toLowerCase().trim() === normalizedFrom

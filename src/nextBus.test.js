@@ -132,7 +132,6 @@ describe("nextBus handler", () => {
     await nextBus(realApp);
 
     expect(app.response).toMatchSnapshot();
-
   });
 
   // TODO: should resolve a query with a selected to and a location based from
