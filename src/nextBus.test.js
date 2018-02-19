@@ -96,7 +96,10 @@ describe("nextBus handler", () => {
 
   it("should return a list on compatible surfaces", async () => {
     const app = new MockDialogflowApp(
-      new Map([[FROM_ARGUMENT, "Gleason Circle"], [TO_ARGUMENT, "Unknown"]])
+      new Map([
+        [FROM_ARGUMENT, "Gleason Circle"],
+        [TO_ARGUMENT, "Barnes and Noble"]
+      ])
     );
     const realApp: DialogflowApp = (app: any);
     app.surfaceCapabilities.add(realApp.SurfaceCapabilities.AUDIO_OUTPUT);

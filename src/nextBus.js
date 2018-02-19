@@ -2,6 +2,7 @@
 import type { DialogflowApp, OptionItem } from "actions-on-google";
 import type { Arrival, Position, Route, Stop, RouteStops } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
+
 import type { Coords } from "./utils";
 import {
   coordsToPosition,
@@ -12,7 +13,8 @@ import {
   timeUntil,
   mustGet,
   pluralizeByCount,
-  pluralizeDo
+  pluralizeDo,
+  sortByDistance
 } from "./utils";
 
 import logger from "./logger";
@@ -91,6 +93,12 @@ const handleUnknownStops = (
   app: DialogflowApp
 ): void => {
   const failedToFindStopMsg: string = `I couldn't find a stop named "${stopName}."`;
+  const sortedPotentialStops: Stop[] = sortByDistance(
+    potentialStops,
+    stopName,
+    stop => stop.name
+  );
+
   if (!app.hasSurfaceCapability(app.SurfaceCapabilities.SCREEN_OUTPUT)) {
     app.tell(failedToFindStopMsg);
     return;
@@ -98,7 +106,7 @@ const handleUnknownStops = (
 
   // Display List of Stops
   const list = app.buildList("Stops").addItems(
-    potentialStops.map((stop: Stop): OptionItem => {
+    sortedPotentialStops.map((stop: Stop): OptionItem => {
       const option = app.buildOptionItem(
         JSON.stringify(({ id: stop.id, type }: OptionKey))
       );

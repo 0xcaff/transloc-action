@@ -1,6 +1,7 @@
 // @flow
 import type { Position } from "transloc-api";
 import { now } from "./now";
+import levenshtein from "fast-levenshtein";
 
 type Identifiable<T> = {
   id: T
@@ -116,4 +117,21 @@ export const mustGet = <K: any, V>(map: Map<K, V>, k: K): V => {
   }
 
   return result;
+};
+
+export const sortByDistance = <T>(
+  items: T[],
+  to: string,
+  getter: T => string
+): T[] => {
+  const mapped = items.slice().map((item: T) => ({
+    item,
+    distance: levenshtein.get(to, getter(item))
+  }));
+
+  const sorted = mapped.sort(
+    ({ distance: aDistance }, { distance: bDistance }) => aDistance - bDistance
+  );
+
+  return sorted.map(({ item }) => item);
 };

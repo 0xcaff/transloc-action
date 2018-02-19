@@ -10,6 +10,7 @@
     "@google-cloud/logging-bunyan": "^0.7.0",
     "actions-on-google": "^1.8.2",
     "bunyan": "^1.8.12",
+    "fast-levenshtein": "^2.0.6",
     "transloc-api": "^1.0.8"
   },
   "devDependencies": {

@@ -7,7 +7,8 @@ import {
   makeMap,
   simplifyDuration,
   pluralize,
-  pluralizeByCount
+  pluralizeByCount,
+  sortByDistance
 } from "./utils";
 
 type IdentifiableType = {
@@ -89,4 +90,17 @@ describe("pluralize", () => {
 
   it("should pluralize nouns ending in -es", () =>
     expect(pluralize("bus")).toEqual("buses"));
+});
+
+describe("sortByDistance", () => {
+  it("should sort from lowest distance to highest distance", () => {
+    const to = "Barnes and Noble";
+    const items = ["Jefferson & Scutty", "UC West", "Barnes & Noble"];
+
+    expect(sortByDistance(items, to, item => item)).toEqual([
+      "Barnes & Noble",
+      "UC West",
+      "Jefferson & Scutty"
+    ]);
+  });
 });
