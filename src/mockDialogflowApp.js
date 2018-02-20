@@ -1,7 +1,4 @@
 // @flow
-
-import { DialogflowApp } from "actions-on-google";
-
 import type {
   Response,
   DeviceLocation,

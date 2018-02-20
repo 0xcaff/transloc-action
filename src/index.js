@@ -11,6 +11,7 @@ export const handleHttp = (request: any, response: any) => {
   const info = { headers: request.headers, body: request.body };
   // Log Sync. Stringify is used to expand all levels instead of just the
   // top few.
+  // eslint-disable-next-line no-console
   console.log(JSON.stringify(info), "request");
 
   logger.info(info, "request");

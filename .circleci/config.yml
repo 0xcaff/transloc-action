@@ -39,6 +39,10 @@ jobs:
           command: yarn test --coverage
 
       - run:
+          name: Lint
+          command: yarn lint
+
+      - run:
           name: Build
           command: yarn build
 

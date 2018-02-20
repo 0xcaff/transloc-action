@@ -1,6 +1,6 @@
 // @flow
 import type { DialogflowApp, OptionItem } from "actions-on-google";
-import type { Arrival, Position, Route, Stop, RouteStops } from "transloc-api";
+import type { Arrival, Route, Stop, RouteStops } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 
 import type { Coords } from "./utils";

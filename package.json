@@ -23,8 +23,11 @@
     "@babel/preset-flow": "^7.0.0-beta.39",
     "@google-cloud/functions-emulator": "^1.0.0-alpha.29",
     "babel-core": "^7.0.0-0",
+    "babel-eslint": "^8.2.1",
     "babel-jest": "^22.2.2",
     "bunyan-debug-stream": "^1.0.8",
+    "eslint": "^4.18.0",
+    "eslint-plugin-flowtype": "^2.45.0",
     "flow-bin": "^0.65.0",
     "flow-typed": "^2.3.0",
     "jest": "^22.2.2",
@@ -41,8 +44,9 @@
       "prettier --list-different $npm_package_config_prettierFiles",
     "deploy-local":
       "functions deploy Handler --trigger-http --entry-point handleHttp",
+    "lint": "eslint --ext .js src/",
     "typings": "flow-typed install",
-    "check-all": "yarn test && yarn flow check && yarn check-style"
+    "check-all": "yarn test && yarn flow check && yarn check-style && yarn lint"
   },
   "babel": {
     "plugins": [
@@ -60,5 +64,21 @@
       ],
       "@babel/preset-flow"
     ]
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "plugins": ["flowtype"],
+    "rules": {
+      "require-valid-file-annotation": "always",
+      "no-undef": "off",
+      "no-unused-vars": "warn",
+      "no-console": "warn"
+    },
+    "settings": {
+      "flowtype": {
+        "onlyFilesWithFlowAnnotation": false
+      }
+    }
   }
 }
