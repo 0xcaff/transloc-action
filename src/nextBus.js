@@ -18,6 +18,7 @@ import {
 } from "./utils";
 
 import logger from "./logger";
+import { now } from "./now";
 
 export const NEXT_BUS_INTENT = "bus.next";
 export const NEXT_BUS_LOCATION_INTENT = "bus.next.location";
@@ -176,7 +177,10 @@ const createResponse = (
   to: ?Stop,
   inputArrivals: $ReadOnlyArray<ArrivalWithRoute>
 ): void => {
-  const arrivals = inputArrivals.slice();
+  const currentTime = now();
+  const arrivals = inputArrivals
+    .slice()
+    .filter(arrival => currentTime < arrival.timestamp);
 
   // Sort arrivals by timestamp in ascending order (smallest first).
   arrivals.sort((a, b) => a.timestamp - b.timestamp);
