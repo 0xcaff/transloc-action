@@ -40,4 +40,4 @@ before the bus arrives at the stop.
 * It's boarding now, it will arrive again in an hour.
 
 [build-status-image]: https://circleci.com/gh/0xcaff/transloc-action.svg?style=svg
-[build-status]: https://circleci.com/gh/0xcaff/transloc-action)
+[build-status]: https://circleci.com/gh/0xcaff/transloc-action
