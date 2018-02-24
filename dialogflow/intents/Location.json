@@ -1,0 +1,36 @@
+{
+  "id": "06c31c4b-b127-4254-ad9f-5c279a78f5f0",
+  "parentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
+  "rootParentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
+  "name": "Location",
+  "auto": true,
+  "contexts": ["NextBusses-followup"],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "bus.next.location",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "c234b32b-5ca7-4a3d-97fb-fe1c55b97fbb",
+          "dataType": "@Bus",
+          "name": "to",
+          "value": "#NextBusses-followup.to"
+        }
+      ],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1518899673,
+  "fallbackIntent": false,
+  "events": [
+    {
+      "name": "actions_intent_PERMISSION"
+    }
+  ]
+}

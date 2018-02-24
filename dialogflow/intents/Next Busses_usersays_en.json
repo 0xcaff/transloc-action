@@ -1,0 +1,498 @@
+[
+  {
+    "id": "0a6a68c3-275d-4ba7-9939-5e5112ca2477",
+    "data": [
+      {
+        "text": "when the next bus from ",
+        "userDefined": false
+      },
+      {
+        "text": "RIT Inn",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": " to ",
+        "userDefined": false
+      },
+      {
+        "text": "Park Point North",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "cf318195-ecd7-4323-8ca8-1e8c522d540e",
+    "data": [
+      {
+        "text": "when the next bus from ",
+        "userDefined": false
+      },
+      {
+        "text": "racquet Club",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "10b43799-5543-4f4c-8c7a-9fd8bd3b7c0d",
+    "data": [
+      {
+        "text": "when the next bus arrives at ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518649961
+  },
+  {
+    "id": "85938ea4-0f0e-49af-acb2-703f4c294e8e",
+    "data": [
+      {
+        "text": "when the next bus from ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": " to ",
+        "userDefined": false
+      },
+      {
+        "text": "parkpoint South",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " arrives",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "83902540-94b5-403d-a208-243b8e545094",
+    "data": [
+      {
+        "text": "when the next bus from ",
+        "userDefined": false
+      },
+      {
+        "text": "Perkins green",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": " to ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " arrives",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "d6ed3c94-4458-4c48-ac1a-da508a3a91d3",
+    "data": [
+      {
+        "text": "when the next bus from ",
+        "userDefined": false
+      },
+      {
+        "text": "Perkins green",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " to ",
+        "userDefined": false
+      },
+      {
+        "text": "Colony Manor",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518558684
+  },
+  {
+    "id": "2ebad810-15e8-4a2a-955d-7a8b7f246eab",
+    "data": [
+      {
+        "text": "When the next bus will arrive at ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "bfdd52b1-2500-4b9b-a280-8c7e5ff0b68b",
+    "data": [
+      {
+        "text": "When is the next bus at ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "d0b7541c-b6de-452f-bbb0-369c7b288eff",
+    "data": [
+      {
+        "text": "How long will it take for a bus to come to ",
+        "userDefined": false
+      },
+      {
+        "text": "Residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "51e843a3-e1b8-4ac1-9766-96cdc73d20ee",
+    "data": [
+      {
+        "text": "Ask my test app when the next bus to ",
+        "userDefined": false
+      },
+      {
+        "text": "Colony Manor",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " is",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "b710593e-779a-4ace-b886-c7d89a7228ed",
+    "data": [
+      {
+        "text": "How long will it take for a bus to come to the ",
+        "userDefined": false
+      },
+      {
+        "text": "Residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "b7e65870-7feb-49c4-8dd2-77759cc0d4ad",
+    "data": [
+      {
+        "text": "When is the next bus arriving at the ",
+        "userDefined": false
+      },
+      {
+        "text": "Residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "0a4bf95c-cd30-48ee-a14b-83d5b61b4417",
+    "data": [
+      {
+        "text": "When is the ",
+        "userDefined": false
+      },
+      {
+        "text": "next",
+        "meta": "@sys.ignore",
+        "userDefined": true
+      },
+      {
+        "text": " bus ",
+        "userDefined": false
+      },
+      {
+        "text": "from",
+        "meta": "@sys.ignore",
+        "userDefined": true
+      },
+      {
+        "text": " the ",
+        "userDefined": false
+      },
+      {
+        "text": "Residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " to ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": " arriving?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "bec2a280-7149-4ec1-a9bf-2a003ff7ebcc",
+    "data": [
+      {
+        "text": "When is the next bus to ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "7124c97f-510a-4d54-b559-90b7b8793455",
+    "data": [
+      {
+        "text": "When the next bus is to ",
+        "userDefined": false
+      },
+      {
+        "text": "Colony Manor",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518540104
+  },
+  {
+    "id": "d767b4d5-94f1-411e-bfde-3103d1df96cf",
+    "data": [
+      {
+        "text": "When the next bus will arrive at the ",
+        "userDefined": false
+      },
+      {
+        "text": "residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "9bb0ffb8-3bc3-401b-8330-d70d74d52dc6",
+    "data": [
+      {
+        "text": "Which busses are arriving at the ",
+        "userDefined": false
+      },
+      {
+        "text": "Residence Halls",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": " next?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "065b43b4-a9a4-4670-82be-c69edb1777b5",
+    "data": [
+      {
+        "text": "How long until a bus arrives at ",
+        "userDefined": false
+      },
+      {
+        "text": "Perkins Green",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 1,
+    "updated": 1518538684
+  },
+  {
+    "id": "354d471a-1820-4a2e-8bab-19801ec3bd1d",
+    "data": [
+      {
+        "text": "Which busses are arriving next?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "ed76dbe2-1ef2-4ce8-9fbe-340d49c9c491",
+    "data": [
+      {
+        "text": "When is the next bus arriving at ",
+        "userDefined": false
+      },
+      {
+        "text": "Target",
+        "alias": "from",
+        "meta": "@Location",
+        "userDefined": true
+      },
+      {
+        "text": "?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  },
+  {
+    "id": "703d57ba-e8e3-4635-8013-ad053778817a",
+    "data": [
+      {
+        "text": "When is the next bus to ",
+        "userDefined": false
+      },
+      {
+        "text": "Gleason Circle",
+        "alias": "to",
+        "meta": "@Location",
+        "userDefined": false
+      },
+      {
+        "text": " arriving?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1518538684
+  }
+]

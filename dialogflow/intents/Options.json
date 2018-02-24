@@ -1,0 +1,42 @@
+{
+  "id": "edc15f05-1971-450c-9bb3-129487670e2a",
+  "parentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
+  "rootParentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
+  "name": "Options",
+  "auto": true,
+  "contexts": ["NextBusses-followup"],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "bus.next.option",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "dc74833f-8e65-474c-9580-88e813bedd7c",
+          "dataType": "@Location",
+          "name": "from",
+          "value": "#NextBusses-followup.from"
+        },
+        {
+          "id": "90c13dd3-72d6-4ce9-ab8f-1a2fab45950f",
+          "dataType": "@Location",
+          "name": "to",
+          "value": "#NextBusses-followup.to"
+        }
+      ],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1518988841,
+  "fallbackIntent": false,
+  "events": [
+    {
+      "name": "actions_intent_OPTION"
+    }
+  ]
+}

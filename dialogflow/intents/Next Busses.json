@@ -1,0 +1,46 @@
+{
+  "id": "e503f07d-3971-472c-8be3-7f073ef27d6e",
+  "name": "Next Busses",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "bus.next",
+      "affectedContexts": [
+        {
+          "name": "NextBusses-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
+      "parameters": [
+        {
+          "id": "fa2fb9ab-47f5-4ea9-ac98-05d0136759e9",
+          "required": false,
+          "dataType": "@Location",
+          "name": "from",
+          "value": "$from",
+          "isList": false
+        },
+        {
+          "id": "b008f5bc-66d7-41f4-b38b-53a302936a96",
+          "required": false,
+          "dataType": "@Location",
+          "name": "to",
+          "value": "$to",
+          "isList": false
+        }
+      ],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1518823710,
+  "fallbackIntent": false,
+  "events": []
+}

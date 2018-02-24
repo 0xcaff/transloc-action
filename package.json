@@ -24,6 +24,7 @@
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.2.2",
     "bunyan-debug-stream": "^1.0.8",
+    "dialogflow-cli": "^1.0.1",
     "eslint": "^4.18.0",
     "eslint-plugin-flowtype": "^2.45.0",
     "flow-bin": "^0.65.0",

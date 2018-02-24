@@ -54,7 +54,7 @@ jobs:
             - lib/**/*
             - lib/*
 
-  deploy:
+  deploy-function:
     docker:
       - image: google/cloud-sdk
 
@@ -78,6 +78,36 @@ jobs:
           name: Deploy
           command: gcloud beta functions deploy Handler --source /project --trigger-http --entry-point handleHttp
 
+  deploy-dialogflow:
+    docker:
+      - image: node:9.5.0
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+
+      - run:
+          name: Install Deps
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Save Credentials
+          command: echo $DIALOGFLOW_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+
+      - run:
+          name: Deploy Dialogflow
+          command: yarn dialogflow-cli import --credentials ${HOME}/gcloud-service-key.json dialogflow/
+
 workflows:
   version: 2
   test:
@@ -91,6 +121,10 @@ workflows:
             branches:
               only: master
 
-      - deploy:
+      - deploy-function:
+          requires:
+            - hold
+
+      - deploy-dialogflow:
           requires:
             - hold
