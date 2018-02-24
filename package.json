@@ -8,7 +8,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.39",
     "actions-on-google": "^1.8.2",
-    "bunyan": "^1.8.12",
     "fast-levenshtein": "^2.0.6",
     "transloc-api": "^1.0.8"
   },
