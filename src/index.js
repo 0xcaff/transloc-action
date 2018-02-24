@@ -6,10 +6,10 @@ import { actionMap } from "./handlers";
 import logger from "./logger";
 
 export const handleHttp = (request: any, response: any) => {
-  const app = new DialogflowApp({ request, response });
-
+  // Log Request
   const info = { headers: request.headers, body: request.body };
   logger.info(info, "request");
 
+  const app = new DialogflowApp({ request, response });
   app.handleRequest(actionMap);
 };
