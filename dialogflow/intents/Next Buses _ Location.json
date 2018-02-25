@@ -2,7 +2,7 @@
   "id": "06c31c4b-b127-4254-ad9f-5c279a78f5f0",
   "parentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
   "rootParentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
-  "name": "Location",
+  "name": "Next Buses \u003e Location",
   "auto": true,
   "contexts": ["NextBusses-followup"],
   "responses": [
@@ -13,9 +13,11 @@
       "parameters": [
         {
           "id": "c234b32b-5ca7-4a3d-97fb-fe1c55b97fbb",
+          "required": false,
           "dataType": "@Bus",
           "name": "to",
-          "value": "#NextBusses-followup.to"
+          "value": "#NextBusses-followup.to",
+          "isList": false
         }
       ],
       "messages": [],
@@ -26,7 +28,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1518899673,
+  "lastUpdate": 1519573534,
   "fallbackIntent": false,
   "events": [
     {

@@ -1,19 +1,26 @@
 {
   "id": "dcbaff74-baae-4e1e-b518-ae778c2b2393",
-  "name": "Default Welcome Intent",
+  "name": "Welcome Intent",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
       "action": "input.welcome",
-      "affectedContexts": [],
+      "affectedContexts": [
+        {
+          "name": "DefaultWelcomeIntent-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
       "parameters": [],
       "messages": [
         {
           "type": 0,
           "lang": "en",
-          "speech": ["Hi!", "Hello!", "Good day!", "Greetings!"]
+          "speech":
+            "Welcome to Transloc. You can ask me something like: \"When’s the next bus arriving?\" or, \"When’s the next bus to Town Square?\""
         }
       ],
       "defaultResponsePlatforms": {},
@@ -23,6 +30,7 @@
   "priority": 500000,
   "webhookUsed": false,
   "webhookForSlotFilling": false,
+  "lastUpdate": 1519573856,
   "fallbackIntent": false,
   "events": [
     {

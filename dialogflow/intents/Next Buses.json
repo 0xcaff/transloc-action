@@ -1,6 +1,6 @@
 {
   "id": "e503f07d-3971-472c-8be3-7f073ef27d6e",
-  "name": "Next Busses",
+  "name": "Next Buses",
   "auto": true,
   "contexts": [],
   "responses": [
@@ -40,7 +40,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1518823710,
+  "lastUpdate": 1519573550,
   "fallbackIntent": false,
   "events": []
 }

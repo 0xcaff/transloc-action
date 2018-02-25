@@ -2,7 +2,7 @@
   "id": "edc15f05-1971-450c-9bb3-129487670e2a",
   "parentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
   "rootParentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
-  "name": "Options",
+  "name": "NextBuses \u003e Options",
   "auto": true,
   "contexts": ["NextBusses-followup"],
   "responses": [
@@ -13,15 +13,19 @@
       "parameters": [
         {
           "id": "dc74833f-8e65-474c-9580-88e813bedd7c",
+          "required": false,
           "dataType": "@Location",
           "name": "from",
-          "value": "#NextBusses-followup.from"
+          "value": "#NextBusses-followup.from",
+          "isList": false
         },
         {
           "id": "90c13dd3-72d6-4ce9-ab8f-1a2fab45950f",
+          "required": false,
           "dataType": "@Location",
           "name": "to",
-          "value": "#NextBusses-followup.to"
+          "value": "#NextBusses-followup.to",
+          "isList": false
         }
       ],
       "messages": [],
@@ -32,7 +36,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1518988841,
+  "lastUpdate": 1519573562,
   "fallbackIntent": false,
   "events": [
     {

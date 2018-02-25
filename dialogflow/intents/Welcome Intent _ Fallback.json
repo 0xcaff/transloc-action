@@ -1,0 +1,32 @@
+{
+  "id": "82f16f75-8ecd-430c-99ab-09059e20fa2d",
+  "parentId": "dcbaff74-baae-4e1e-b518-ae778c2b2393",
+  "rootParentId": "dcbaff74-baae-4e1e-b518-ae778c2b2393",
+  "name": "Welcome Intent \u003e Fallback",
+  "auto": false,
+  "contexts": ["DefaultWelcomeIntent-followup"],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "DefaultWelcomeIntent.DefaultWelcomeIntent-fallback",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech":
+            "I don’t know how to help with that. Try saying something like: \"When’s the next bus arriving?\" or, \"When’s the next bus to Town Square?\""
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1519573871,
+  "fallbackIntent": true,
+  "events": []
+}
