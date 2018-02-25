@@ -22,6 +22,7 @@ const logger = {
     const normalizedFirst = normalizeFirst(first);
     const normalizedSecond = normalizeSecond(second);
 
+    // eslint-disable-next-line no-console
     console.log(normalizedFirst, normalizedSecond);
   }
 };

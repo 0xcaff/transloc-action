@@ -7,10 +7,6 @@
     "welcomeIntentSignInRequired": false,
     "startIntents": [
       {
-        "intentId": "7ffd056f-2f83-4165-a1b2-edc2c6eb20f9",
-        "signInRequired": false
-      },
-      {
         "intentId": "e503f07d-3971-472c-8be3-7f073ef27d6e",
         "signInRequired": false
       }
