@@ -24,6 +24,13 @@ const logger = {
 
     // eslint-disable-next-line no-console
     console.log(normalizedFirst, normalizedSecond);
+  },
+  error(first: Object | string, second: ?string) {
+    const normalizedFirst = normalizeFirst(first);
+    const normalizedSecond = normalizeSecond(second);
+
+    // eslint-disable-next-line no-console
+    console.error(normalizedFirst, normalizedSecond);
   }
 };
 

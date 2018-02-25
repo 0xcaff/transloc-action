@@ -157,7 +157,10 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
   if (resolvedToStop) {
     logger.info({ resolvedToStop }, "found matching to stop");
     if (!routes) {
-      throw new TypeError(`The API response didn't include routes.`);
+      logger.error({ routes }, `The API response didn't include routes`);
+      app.tell("Something went wrong.");
+
+      return;
     }
 
     const stitchedRoutes = stitchRouteStops(arrivals, routes);
