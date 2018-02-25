@@ -2,7 +2,7 @@
 import "@babel/polyfill";
 
 import { DialogflowApp } from "actions-on-google";
-import { actionMap } from "./handlers";
+import { actionMap } from "./intents/index";
 import logger from "./logger";
 
 export const handleHttp = (request: any, response: any) => {

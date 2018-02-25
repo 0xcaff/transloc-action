@@ -3,7 +3,7 @@ import type { DialogflowApp, OptionItem } from "actions-on-google";
 import type { Arrival, Route, Stop, RouteStops } from "transloc-api";
 import { getArrivals, getRoutes, getStops } from "transloc-api";
 
-import type { Coords } from "./utils";
+import type { Coords } from "../utils";
 import {
   coordsToPosition,
   distance,
@@ -15,10 +15,10 @@ import {
   pluralizeByCount,
   pluralizeDo,
   sortByDistance
-} from "./utils";
+} from "../utils";
 
-import logger from "./logger";
-import { now } from "./now";
+import logger from "../logger";
+import { now } from "../now";
 
 export const NEXT_BUS_INTENT = "bus.next";
 export const NEXT_BUS_LOCATION_INTENT = "bus.next.location";

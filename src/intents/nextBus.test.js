@@ -1,10 +1,10 @@
 // @flow
-jest.mock("./now");
+jest.mock("../now");
 
 import type { DeviceLocation } from "actions-on-google";
 import { DialogflowApp } from "actions-on-google";
 import { FROM_ARGUMENT, nextBus, TO_ARGUMENT } from "./nextBus";
-import { MockDialogflowApp } from "./mockDialogflowApp";
+import { MockDialogflowApp } from "../mockDialogflowApp";
 
 const location: DeviceLocation = {
   coordinates: { latitude: 43.082978, longitude: -77.677036 },
