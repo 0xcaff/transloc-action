@@ -135,17 +135,3 @@ export const sortByDistance = <T>(
 
   return sorted.map(({ item }) => item);
 };
-
-export const simpleMemoize = (f: Function): Function => {
-  let cache;
-
-  return (...args) => {
-    if (cache) {
-      return cache;
-    }
-
-    const result = f(...args);
-    cache = result;
-    return result;
-  };
-}
