@@ -23,8 +23,14 @@ declare module "actions-on-google" {
     longitude: number
   };
 
-  declare export type DeviceLocation = {
-    coordinates: Coordinates,
+  declare export type DeviceLocation = FineDeviceLocation &
+    CoarseDeviceLocation;
+
+  declare export type FineDeviceLocation = {
+    coordinates: Coordinates
+  };
+
+  declare export type CoarseDeviceLocation = {
     address: string,
     zipCode: string,
     city: string
