@@ -17,21 +17,29 @@ const normalizeSecond = (second: ?string): string => {
   return "";
 };
 
+type ConsoleLogger = (...args: any[]) => void;
+
+type Logger = (first: Object | string, second: ?string) => void;
+
+const makeLogger = (log: ConsoleLogger): Logger => (
+  first: Object | string,
+  second: ?string
+): void => {
+  const normalizedFirst = normalizeFirst(first);
+  const normalizedSecond = normalizeSecond(second);
+
+  log(normalizedFirst, normalizedSecond);
+};
+
 const logger = {
-  info(first: Object | string, second: ?string) {
-    const normalizedFirst = normalizeFirst(first);
-    const normalizedSecond = normalizeSecond(second);
+  // eslint-disable-next-line no-console
+  info: makeLogger(console.log),
 
-    // eslint-disable-next-line no-console
-    console.log(normalizedFirst, normalizedSecond);
-  },
-  error(first: Object | string, second: ?string) {
-    const normalizedFirst = normalizeFirst(first);
-    const normalizedSecond = normalizeSecond(second);
+  // eslint-disable-next-line no-console
+  error: makeLogger(console.error),
 
-    // eslint-disable-next-line no-console
-    console.error(normalizedFirst, normalizedSecond);
-  }
+  // eslint-disable-next-line no-console
+  warn: makeLogger(console.warn)
 };
 
 export default logger;
