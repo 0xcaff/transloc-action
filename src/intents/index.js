@@ -1,15 +1,10 @@
 // @flow
-
 import type { HandlerMap } from "actions-on-google";
-import {
-  NEXT_BUS_INTENT,
-  NEXT_BUS_LOCATION_INTENT,
-  NEXT_BUS_OPTION_INTENT,
-  nextBus
-} from "./nextBus";
+import { nextBus } from "./nextBus/nextBus";
+import { nextBusLocation } from "./nextBus/location";
+import { nextBusOption } from "./nextBus/option";
 
 export const actionMap: HandlerMap = new Map();
-
-actionMap.set(NEXT_BUS_INTENT, nextBus);
-actionMap.set(NEXT_BUS_LOCATION_INTENT, nextBus);
-actionMap.set(NEXT_BUS_OPTION_INTENT, nextBus);
+actionMap.set("bus.next", nextBus);
+actionMap.set("bus.next.location", nextBusLocation);
+actionMap.set("bus.next.option", nextBusOption);

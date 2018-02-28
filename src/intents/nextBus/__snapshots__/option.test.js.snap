@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`uses the list key for the "from" field 1`] = `
+Object {
+  "response": "There are no buses arriving at Gleason Circle.",
+  "type": "TELL",
+}
+`;
+
+exports[`uses the list key for the "from" field 2`] = `Map {}`;
+
+exports[`uses the list key for the "to" field 1`] = `
+Object {
+  "response": "There are no buses traveling from Gleason Circle to Park Point North.",
+  "type": "TELL",
+}
+`;
+
+exports[`uses the list key for the "to" field 2`] = `Map {}`;

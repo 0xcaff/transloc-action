@@ -4,7 +4,8 @@ import type {
   DeviceLocation,
   SupportedPermission,
   SurfaceCapability,
-  SimpleResponse
+  SimpleResponse,
+  Context
 } from "actions-on-google";
 import {
   RichResponse,
@@ -27,6 +28,7 @@ type RecordedResponse =
 export class MockDialogflowApp {
   // Output Field
   response: ?RecordedResponse = null;
+  contextOut: Map<string, Context<Object>> = new Map();
 
   // Input Fields
   args: Map<string, any>;
@@ -34,6 +36,7 @@ export class MockDialogflowApp {
   deviceLocation: ?DeviceLocation;
   selectedOption: ?string;
   surfaceCapabilities: Set<SurfaceCapability> = new Set();
+  context: Map<string, Context<Object>> = new Map();
 
   constructor(args: Map<string, any> = new Map()) {
     this.args = args;
@@ -108,6 +111,16 @@ export class MockDialogflowApp {
 
   hasSurfaceCapability = (cap: SurfaceCapability): boolean =>
     this.surfaceCapabilities.has(cap);
+
+  getContext = (name: string) => this.context.get(name);
+
+  setContext = (name: string, lifespan: ?number, params: Object) => {
+    this.contextOut.set(name, {
+      name,
+      lifespan: lifespan || 0,
+      parameters: params
+    });
+  };
 
   SupportedPermissions = {
     NAME: "NAME",

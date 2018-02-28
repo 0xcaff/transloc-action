@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`nextBus handler should not return a list on incompatible surfaces 1`] = `
-Object {
-  "response": "I couldn't find a stop named \\"Unknown.\\"",
-  "type": "TELL",
-}
-`;
-
-exports[`nextBus handler should request the location when from is not provided 1`] = `
+exports[`requests the location when "from" is not provided 1`] = `
 Object {
   "permission": Object {
     "context": "To find the nearest stop",
@@ -18,42 +11,28 @@ Object {
 }
 `;
 
-exports[`nextBus handler should resolve a query with a given from location 1`] = `
+exports[`requests the location when "from" is not provided 2`] = `Map {}`;
+
+exports[`should not return a list on incompatible surfaces 1`] = `
 Object {
-  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+  "response": "I couldn't find a stop named \\"Unknown.\\"",
   "type": "TELL",
 }
 `;
 
-exports[`nextBus handler should resolve a query with a given from location and to location 1`] = `
-Object {
-  "response": "The following buses are traveling from Gleason Circle to Park Point South. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
-  "type": "TELL",
+exports[`should not return a list on incompatible surfaces 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
 }
 `;
 
-exports[`nextBus handler should resolve a query with with a given from without any buses traveling to the destination 1`] = `
-Object {
-  "response": "There are no buses traveling from Gleason Circle to Target.",
-  "type": "TELL",
-}
-`;
-
-exports[`nextBus handler should resolve a query without a given from and with a to location 1`] = `
-Object {
-  "response": "The following buses are traveling from Gleason Circle to Park Point South. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
-  "type": "TELL",
-}
-`;
-
-exports[`nextBus handler should resolve a query without the from field with location provided 1`] = `
-Object {
-  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
-  "type": "TELL",
-}
-`;
-
-exports[`nextBus handler should return a list on compatible surfaces 1`] = `
+exports[`should return a list on compatible surfaces 1`] = `
 Object {
   "list": List {
     "items": Array [
@@ -280,16 +259,109 @@ Object {
 }
 `;
 
-exports[`nextBus handler should select the value for the "from" field using the list key 1`] = `
+exports[`should return a list on compatible surfaces 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
+exports[`uses a previously authorized location if provided 1`] = `
 Object {
   "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
   "type": "TELL",
 }
 `;
 
-exports[`nextBus handler should select the value for the "to" field using the list key 1`] = `
+exports[`uses a previously authorized location if provided 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
+exports[`works on a route without any buses 1`] = `
 Object {
-  "response": "The following buses are traveling from Gleason Circle to Park Point North. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
+  "response": "There are no buses traveling from Gleason Circle to Target.",
   "type": "TELL",
+}
+`;
+
+exports[`works on a route without any buses 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
+exports[`works with a location based source and explicit destination 1`] = `
+Object {
+  "response": "The following buses are traveling from Gleason Circle to Park Point South. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`works with a location based source and explicit destination 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
+exports[`works with an explicit source and destination 1`] = `
+Object {
+  "response": "The following buses are traveling from Gleason Circle to Park Point South. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`works with an explicit source and destination 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
+exports[`works with an explicit source location 1`] = `
+Object {
+  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`works with an explicit source location 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
 }
 `;
