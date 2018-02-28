@@ -1,0 +1,80 @@
+// @flow
+import type { DialogflowApp } from "actions-on-google";
+import type { Stop } from "transloc-api";
+import { getStops } from "../../data/index";
+import { agencies } from "../../data/agencies";
+import logger from "../../logger";
+import { FROM_STOP_KEY, storeLocationContext } from "./context";
+import { findNearestStop } from "./utils";
+import { displayStopsList, findAndShowArrivals } from "./responses";
+import { FROM_OPTION_TYPE } from "./option";
+import type { StopResult } from "./resolve";
+import { convertStopResult, resolveToStop } from "./resolve";
+
+// Called in response to a permission request for the current location.
+export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
+  logger.info("nextBusLocation");
+
+  const { stops, routes } = await getStops({ agencies, include_stops: true });
+  const location = app.getDeviceLocation();
+
+  // Parse Response From Handler
+  if (!app.isPermissionGranted() || !location || !location.coordinates) {
+    // The user rejected providing their location. Let's just show them a
+    // list of possible stops instead.
+    const unknownLocationMessage =
+      "I couldn't find the nearest stop without your location.";
+
+    handleFailure(unknownLocationMessage, app, stops);
+    return;
+  }
+
+  if (!location || !location.coordinates) {
+    // Permission was granted but the fine location wasn't populated.
+
+    const locationMissingMessage = `Permission was granted, but a location wasn't provided.`;
+
+    logger.warn({ location }, locationMissingMessage);
+
+    handleFailure(locationMissingMessage, app, stops);
+    return;
+  }
+
+  // Permission Granted, Get Nearest Stop
+  const { coordinates: deviceCoordinates } = location;
+  const nearestStop = findNearestStop(deviceCoordinates, stops);
+
+  if (!nearestStop) {
+    // There were no stops, so there isn't a nearest stop.
+
+    const noNearestStopMessage = `I couldn't find any stops. Please try again later.`;
+    app.tell(noNearestStopMessage);
+    return;
+  }
+
+  // Set "from" Context
+  storeLocationContext(app, FROM_STOP_KEY, nearestStop);
+
+  // Get "to" Information
+  const maybeToStop: StopResult = resolveToStop(app, stops);
+  if (maybeToStop.type === "DELEGATING") {
+    logger.info("delegating to stop resolution");
+    return;
+  }
+
+  const convertedMaybeToStop: ?Stop = convertStopResult(maybeToStop);
+
+  return findAndShowArrivals(app, nearestStop, convertedMaybeToStop, routes);
+};
+
+const handleFailure = (message: string, app: DialogflowApp, stops: Stop[]) => {
+  if (!app.hasSurfaceCapability(app.SurfaceCapabilities.SCREEN_OUTPUT)) {
+    app.tell(message);
+    return;
+  }
+
+  return app.askWithList(
+    [message, `Try one of the following stops.`].join(" "),
+    displayStopsList(app, FROM_OPTION_TYPE, stops)
+  );
+};

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fails when a location isn't provided 1`] = `
+Object {
+  "response": "I couldn't find the nearest stop without your location.",
+  "type": "TELL",
+}
+`;
+
+exports[`fails when a location isn't provided 2`] = `Map {}`;
+
+exports[`works with the location provided 1`] = `
+Object {
+  "response": "There are no buses arriving at Gleason Circle.",
+  "type": "TELL",
+}
+`;
+
+exports[`works with the location provided 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
