@@ -46,4 +46,13 @@ it(`works when "to" is specified correctly`, async () => {
   expect(app.contextOut).toMatchSnapshot();
 });
 
-// TODO: Check With To
+it(`fails when "to" is specified incorrectly`, async () => {
+  const app = new MockDialogflowApp(new Map([[TO_ARGUMENT, "Park Point"]]));
+  app.deviceLocation = location;
+  app.permissionGranted = true;
+
+  await nextBusLocation((app: any));
+
+  expect(app.response).toMatchSnapshot();
+  expect(app.contextOut).toMatchSnapshot();
+});

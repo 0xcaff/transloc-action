@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`fails when "to" is specified incorrectly 1`] = `
+Object {
+  "response": "I couldn't find a stop named \\"Park Point.\\"",
+  "type": "TELL",
+}
+`;
+
+exports[`fails when "to" is specified incorrectly 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
 exports[`fails when a location isn't provided 1`] = `
 Object {
   "response": "I couldn't find the nearest stop without your location.",
