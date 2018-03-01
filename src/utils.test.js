@@ -68,8 +68,6 @@ it("should calculate distance correctly", () => {
   expect(dist).toBeCloseTo(8.765e-1, 1e-3);
 });
 
-// TODO: Test timeUntil
-
 describe("simplify duration", () => {
   it("should simplify minutes", () =>
     expect(simplifyDuration(100.321)).toEqual({ minutes: 1, seconds: 40 }));

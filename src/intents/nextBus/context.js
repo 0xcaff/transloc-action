@@ -18,7 +18,6 @@ export const storeLocationContext = (
   key: LocationKey,
   stop: Stop
 ): void => {
-  // TODO: Will this work?
   const lifetime = undefined;
 
   const params: StopParams = { stopId: stop.id };
