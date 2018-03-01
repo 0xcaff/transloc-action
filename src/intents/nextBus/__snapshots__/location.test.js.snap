@@ -9,9 +9,28 @@ Object {
 
 exports[`fails when a location isn't provided 2`] = `Map {}`;
 
+exports[`works when "to" is specified correctly 1`] = `
+Object {
+  "response": "The following buses are traveling from Gleason Circle to Perkins Green. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`works when "to" is specified correctly 2`] = `
+Map {
+  "from" => Object {
+    "lifespan": 0,
+    "name": "from",
+    "parameters": Object {
+      "stopId": 4197446,
+    },
+  },
+}
+`;
+
 exports[`works with the location provided 1`] = `
 Object {
-  "response": "There are no buses arriving at Gleason Circle.",
+  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
   "type": "TELL",
 }
 `;

@@ -1,8 +1,7 @@
 // @flow
-import { FROM_ARGUMENT, TO_ARGUMENT } from "./arguments";
-
 jest.mock("../../now");
 
+import { FROM_ARGUMENT, TO_ARGUMENT } from "./arguments";
 import type { DeviceLocation } from "actions-on-google";
 import { DialogflowApp } from "actions-on-google";
 import { nextBus } from "./nextBus";
