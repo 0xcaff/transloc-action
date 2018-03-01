@@ -1,7 +1,7 @@
 // @flow
 import type { Stop } from "transloc-api";
 import type { DialogflowApp } from "actions-on-google";
-import type { StopResult } from "./resolve";
+import type { Result } from "./resolve";
 import { getStopById } from "./resolve";
 
 export opaque type LocationKey = string;
@@ -29,7 +29,7 @@ export const getStopFromContext = (
   app: DialogflowApp,
   key: LocationKey,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   const context = app.getContext(key);
   if (!context) {
     return { type: "EMPTY" };
@@ -42,5 +42,5 @@ export const getStopFromContext = (
     return { type: "DELEGATING" };
   }
 
-  return { type: "SUCCESS", stop: maybeStop };
+  return { type: "SUCCESS", value: maybeStop };
 };

@@ -6,17 +6,13 @@ import { getStops } from "../../data";
 import logger from "../../logger";
 import { agencies } from "../../data/agencies";
 import {
-  convertStopResult,
+  convertResult,
   getStopFromOption,
   must,
   resolveToStop
 } from "./resolve";
 import { FROM_STOP_KEY, getStopFromContext, TO_STOP_KEY } from "./context";
-import type {
-  StopResult,
-  StopResultDelegating,
-  StopResultSuccess
-} from "./resolve";
+import type { Result, ResultDelegating, ResultSuccess } from "./resolve";
 import { findAndShowArrivals } from "./responses";
 
 export type OptionKey = {
@@ -57,14 +53,14 @@ export const nextBusOption = async (app: DialogflowApp) => {
     return;
   }
 
-  const from: Stop = fromResult.stop;
+  const from: Stop = fromResult.value;
 
   const toResult = resolveTo(app, option, stops);
   if (toResult.type === "DELEGATING") {
     return;
   }
 
-  const maybeTo: ?Stop = convertStopResult(toResult);
+  const maybeTo: ?Stop = convertResult(toResult);
 
   return findAndShowArrivals(app, from, maybeTo, routes);
 };
@@ -74,7 +70,7 @@ const resolveFrom = (
   app: DialogflowApp,
   option: OptionKey,
   stops: Stop[]
-): StopResultSuccess | StopResultDelegating => {
+): ResultSuccess<Stop> | ResultDelegating => {
   // At this point the "from" attribute has been resolved into a context or
   // it is the response to the option selection.
 
@@ -107,7 +103,7 @@ const resolveTo = (
   app: DialogflowApp,
   option: OptionKey,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   const maybeOptionLocation = getStopFromOption(
     app,
     option,

@@ -8,8 +8,8 @@ import { FROM_STOP_KEY, storeLocationContext } from "./context";
 import { findNearestStop } from "./utils";
 import { displayStopsList, findAndShowArrivals } from "./responses";
 import { FROM_OPTION_TYPE } from "./option";
-import type { StopResult } from "./resolve";
-import { convertStopResult, resolveToStop } from "./resolve";
+import type { Result } from "./resolve";
+import { convertResult, resolveToStop } from "./resolve";
 
 // Called in response to a permission request for the current location.
 export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
@@ -45,13 +45,13 @@ export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
   storeLocationContext(app, FROM_STOP_KEY, nearestStop);
 
   // Get "to" Information
-  const maybeToStop: StopResult = resolveToStop(app, stops);
+  const maybeToStop: Result<Stop> = resolveToStop(app, stops);
   if (maybeToStop.type === "DELEGATING") {
     logger.info("delegating to stop resolution");
     return;
   }
 
-  const convertedMaybeToStop: ?Stop = convertStopResult(maybeToStop);
+  const convertedMaybeToStop: ?Stop = convertResult(maybeToStop);
 
   return findAndShowArrivals(app, nearestStop, convertedMaybeToStop, routes);
 };
