@@ -1,6 +1,7 @@
 // @flow
 import type { Stop } from "transloc-api/lib/endpoints/stops";
 import { DialogflowApp } from "actions-on-google";
+import type { FineDeviceLocation, DeviceLocation } from "actions-on-google";
 import type { OptionKey, OptionType } from "./option";
 import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./option";
 import { findMatchingStop, findNearestStop } from "./utils";
@@ -8,7 +9,7 @@ import logger from "../../logger";
 import { sortByDistance } from "../../utils";
 import { handleUnknownStops } from "./responses";
 import { getFromArg, getToArg } from "./arguments";
-import type { Result } from "../../result";
+import type { Result, ResultDelegating, ResultSuccess } from "../../result";
 
 // Find a stop matching the specified query. If none can be found, a list of
 // stops is shown to the user.
@@ -76,26 +77,23 @@ export const resolveFromStop = (
   return findOrRequestMatchingStop(app, from, stops, FROM_OPTION_TYPE);
 };
 
-// Get's the stop nearest to the current location. If the location isn't
-// available, requests it.
-const getStopByLocation = (app: DialogflowApp, stops: Stop[]): Result<Stop> => {
-  const location = app.getDeviceLocation();
+// Tries to retrive the current location. Requests if needed.
+export const mustGetLocation = (
+  app: DialogflowApp,
+  reason: string
+): ResultSuccess<FineDeviceLocation> | ResultDelegating => {
+  const location: ?DeviceLocation = app.getDeviceLocation();
   if (location && location.coordinates) {
     // The location was provided previously, let's use it.
 
-    const { coordinates: deviceCoordinates } = location;
-    const nearestStop = findNearestStop(deviceCoordinates, stops);
-
-    if (nearestStop) {
-      return { type: "SUCCESS", value: nearestStop };
-    }
+    return { type: "SUCCESS", value: location };
   }
 
   // There was no suitable location, let's ask for permission.
   logger.info("requesting location permission");
 
   const fromLocation = app.askForPermission(
-    "To find the nearest stop",
+    reason,
     app.SupportedPermissions.DEVICE_PRECISE_LOCATION
   );
 
@@ -105,8 +103,26 @@ const getStopByLocation = (app: DialogflowApp, stops: Stop[]): Result<Stop> => {
 
   // After this, the location is collected and the intent with the event
   // actions_intent_PERMISSION is triggered.
-
   return { type: "DELEGATING" };
+};
+
+// Get's the stop nearest to the current location. If the location isn't
+// available, requests it.
+const getStopByLocation = (app: DialogflowApp, stops: Stop[]): Result<Stop> => {
+  const locationResult = mustGetLocation(app, "To find the nearest stop");
+
+  if (locationResult.type === "DELEGATING") {
+    return locationResult;
+  }
+
+  const { coordinates: deviceCoordinates } = locationResult.value;
+  const nearestStop = findNearestStop(deviceCoordinates, stops);
+
+  if (!nearestStop) {
+    return { type: "EMPTY" };
+  }
+
+  return { type: "SUCCESS", value: nearestStop };
 };
 
 export const getStopFromOption = (
