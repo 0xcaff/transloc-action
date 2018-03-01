@@ -29,17 +29,6 @@ export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
     return;
   }
 
-  if (!location || !location.coordinates) {
-    // Permission was granted but the fine location wasn't populated.
-
-    const locationMissingMessage = `Permission was granted, but a location wasn't provided.`;
-
-    logger.warn({ location }, locationMissingMessage);
-
-    handleFailure(locationMissingMessage, app, stops);
-    return;
-  }
-
   // Permission Granted, Get Nearest Stop
   const { coordinates: deviceCoordinates } = location;
   const nearestStop = findNearestStop(deviceCoordinates, stops);
