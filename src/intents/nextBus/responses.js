@@ -7,6 +7,7 @@ import {
   pluralizeDo,
   simplifyDuration,
   sortByDistance,
+  stringifyDuration,
   timeUntil
 } from "../../utils";
 import { now } from "../../now";
@@ -84,10 +85,7 @@ const sendResponse = (
   const textArrivals = arrivalsInfo
     .map(
       ({ duration, routeName }) =>
-        `${routeName} in ${duration.count} ${pluralizeByCount(
-          duration.unit,
-          duration.count
-        )}`
+        `${routeName} in ${stringifyDuration(duration)}`
     )
     .join("; ");
 

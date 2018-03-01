@@ -72,10 +72,10 @@ it("should calculate distance correctly", () => {
 
 describe("simplify duration", () => {
   it("should simplify minutes", () =>
-    expect(simplifyDuration(100.321)).toEqual({ unit: "minute", count: 1 }));
+    expect(simplifyDuration(100.321)).toEqual({ minutes: 1, seconds: 40 }));
 
   it("should simplify seconds", () =>
-    expect(simplifyDuration(30)).toEqual({ unit: "second", count: 30 }));
+    expect(simplifyDuration(30)).toEqual({ minutes: 0, seconds: 30 }));
 });
 
 it("should not pluralize singular units", () =>

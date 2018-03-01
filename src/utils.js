@@ -70,16 +70,33 @@ export const distance = haversineDistance;
 export const timeUntil = (time: number) => time - now();
 
 type SimpleDuration = {
-  unit: string,
-  count: number
+  minutes: number,
+  seconds: number
 };
 
-export const simplifyDuration = (time: number): SimpleDuration => {
-  if (time > 60) {
-    return { unit: "minute", count: Math.floor(time / 60) };
+export const simplifyDuration = (inputSeconds: number): SimpleDuration => {
+  const minutes = Math.floor(inputSeconds / 60);
+  const seconds = Math.floor(inputSeconds - minutes * 60);
+
+  return { minutes, seconds };
+};
+
+export const stringifyDuration = (simpleDuration: SimpleDuration): string => {
+  const mins = `${simpleDuration.minutes} ${pluralizeByCount(
+    "minute",
+    simpleDuration.minutes
+  )}`;
+
+  if (simpleDuration.minutes > 3) {
+    return mins;
   }
 
-  return { unit: "second", count: time };
+  const secs = `${simpleDuration.seconds} ${pluralizeByCount(
+    "second",
+    simpleDuration.seconds
+  )}`;
+
+  return `${mins} and ${secs}`;
 };
 
 export const pluralizeByCount = (str: string, count: number): string => {
