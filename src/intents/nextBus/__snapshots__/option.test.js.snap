@@ -2,7 +2,7 @@
 
 exports[`uses the list key for the "from" field 1`] = `
 Object {
-  "response": "There are no buses arriving at Gleason Circle.",
+  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
   "type": "TELL",
 }
 `;
@@ -11,7 +11,7 @@ exports[`uses the list key for the "from" field 2`] = `Map {}`;
 
 exports[`uses the list key for the "to" field 1`] = `
 Object {
-  "response": "There are no buses traveling from Gleason Circle to Park Point North.",
+  "response": "The following buses are traveling from Gleason Circle to Park Point North. Perkins - Park Point in 11 minutes; Perkins - Park Point in 32 minutes.",
   "type": "TELL",
 }
 `;

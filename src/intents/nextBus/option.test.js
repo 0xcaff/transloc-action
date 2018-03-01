@@ -1,4 +1,6 @@
 // @flow
+jest.mock("../../now");
+
 import { MockDialogflowApp } from "../../mockDialogflowApp";
 import { FROM_ARGUMENT, TO_ARGUMENT } from "./arguments";
 import { DialogflowApp } from "actions-on-google";
