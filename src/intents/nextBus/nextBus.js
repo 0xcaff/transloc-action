@@ -7,9 +7,10 @@ import { getStops } from "../../data";
 import logger from "../../logger";
 import { agencies } from "../../data/agencies";
 import { findAndShowArrivals } from "./responses";
-import type { Result } from "./resolve";
-import { convertResult, resolveFromStop, resolveToStop } from "./resolve";
+import type { Result } from "../../result";
+import { resolveFromStop, resolveToStop } from "./resolve";
 import { FROM_STOP_KEY, storeLocationContext } from "./context";
+import { convertResult } from "../../result";
 
 // The intent handler for the next bus intent.
 export const nextBus = async (app: DialogflowApp): Promise<void> => {

@@ -5,15 +5,12 @@ import type { Stop } from "transloc-api";
 import { getStops } from "../../data";
 import logger from "../../logger";
 import { agencies } from "../../data/agencies";
-import {
-  convertResult,
-  getStopFromOption,
-  must,
-  resolveToStop
-} from "./resolve";
+import { getStopFromOption, resolveToStop } from "./resolve";
 import { FROM_STOP_KEY, getStopFromContext, TO_STOP_KEY } from "./context";
-import type { Result, ResultDelegating, ResultSuccess } from "./resolve";
+import type { Result } from "../../result";
 import { findAndShowArrivals } from "./responses";
+import type { ResultDelegating, ResultSuccess } from "../../result";
+import { convertResult, must } from "../../result";
 
 export type OptionKey = {
   id: number,

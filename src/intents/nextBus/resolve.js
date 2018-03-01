@@ -2,32 +2,13 @@
 import type { Stop } from "transloc-api/lib/endpoints/stops";
 import { DialogflowApp } from "actions-on-google";
 import type { OptionKey, OptionType } from "./option";
+import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./option";
 import { findMatchingStop, findNearestStop } from "./utils";
 import logger from "../../logger";
 import { sortByDistance } from "../../utils";
 import { handleUnknownStops } from "./responses";
-import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./option";
 import { getFromArg, getToArg } from "./arguments";
-
-// A request has been made for more information from the user.
-export type ResultDelegating = { type: "DELEGATING" };
-
-// The stop has successfully been resolved.
-export type ResultSuccess<T> = { type: "SUCCESS", value: T };
-
-// There is no stop to resolve.
-export type ResultEmpty = { type: "EMPTY" };
-
-export type Result<T> = ResultDelegating | ResultSuccess<T> | ResultEmpty;
-
-// Converts a result to a nullable value.
-export const convertResult = <T>(r: ResultSuccess<T> | ResultEmpty): ?T => {
-  if (r.type === "EMPTY") {
-    return null;
-  }
-
-  return r.value;
-};
+import type { Result } from "../../result";
 
 // Find a stop matching the specified query. If none can be found, a list of
 // stops is shown to the user.
@@ -146,22 +127,6 @@ export const getStopFromOption = (
   }
 
   return { type: "SUCCESS", value: stop };
-};
-
-// Reports an error for empty results.
-export const must = <T>(
-  app: DialogflowApp,
-  r: Result<T>,
-  message: string,
-  logMessage: string
-): ResultSuccess<T> | ResultDelegating => {
-  if (r.type === "EMPTY") {
-    app.tell(message);
-    logger.warn(logMessage);
-    return { type: "DELEGATING" };
-  }
-
-  return r;
 };
 
 export const getStopById = (stopId: number, stops: Stop[]): ?Stop =>

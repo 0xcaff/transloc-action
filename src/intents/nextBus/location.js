@@ -8,8 +8,9 @@ import { FROM_STOP_KEY, storeLocationContext } from "./context";
 import { findNearestStop } from "./utils";
 import { displayStopsList, findAndShowArrivals } from "./responses";
 import { FROM_OPTION_TYPE } from "./option";
-import type { Result } from "./resolve";
-import { convertResult, resolveToStop } from "./resolve";
+import type { Result } from "../../result";
+import { resolveToStop } from "./resolve";
+import { convertResult } from "../../result";
 
 // Called in response to a permission request for the current location.
 export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
