@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "babel -d lib/ src/",
-    "test": "jest src/",
+    "test": "jest",
     "fix-style": "prettier --write $npm_package_config_prettierFiles",
     "check-style":
       "prettier --list-different $npm_package_config_prettierFiles",
@@ -79,5 +79,13 @@
         "onlyFilesWithFlowAnnotation": false
       }
     }
+  },
+  "jest": {
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.js",
+      "<rootDir>/src/**/?(*.)(spec|test).js"
+    ],
+    "testEnvironment": "node"
   }
 }

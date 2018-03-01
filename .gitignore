@@ -1,3 +1,5 @@
 node_modules/
 lib/
 flow-typed/
+coverage/
+yarn-error.log
