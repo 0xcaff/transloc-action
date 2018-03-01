@@ -19,14 +19,14 @@ Map {
 }
 `;
 
-exports[`fails when a location isn't provided 1`] = `
+exports[`fails when permission is granted but location isn't provided 1`] = `
 Object {
   "response": "I couldn't find the nearest stop without your location.",
   "type": "TELL",
 }
 `;
 
-exports[`fails when a location isn't provided 2`] = `Map {}`;
+exports[`fails when permission is granted but location isn't provided 2`] = `Map {}`;
 
 exports[`works when "to" is specified correctly 1`] = `
 Object {

@@ -24,7 +24,7 @@ it(`works with the location provided`, async () => {
   expect(app.contextOut).toMatchSnapshot();
 });
 
-it(`fails when a location isn't provided`, async () => {
+it(`fails when permission is granted but location isn't provided`, async () => {
   const app = new MockDialogflowApp();
   app.deviceLocation = null;
   app.permissionGranted = true;
