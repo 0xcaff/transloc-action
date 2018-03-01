@@ -113,8 +113,3 @@ it("should return a list on compatible surfaces", async () => {
   expect(app.response).toMatchSnapshot();
   expect(app.contextOut).toMatchSnapshot();
 });
-
-// TODO: should resolve a query with a selected to and a location based from
-// TODO: should resolve a query with a given from without any busses
-// TODO: Should resolve a query which returns a single bus
-// TODO: Test Failure Case With Specified From and To
