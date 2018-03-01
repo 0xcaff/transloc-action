@@ -10,6 +10,13 @@ export const handleHttp = (request: any, response: any) => {
   const info = { headers: request.headers, body: request.body };
   logger.info(info, "request");
 
+  // Authenticate Request
+  const { authorization } = request.headers;
+  if (authorization !== process.env.ALLOWED_AUTHORIZATION) {
+    response.sendStatus(401);
+    return;
+  }
+
   const app = new DialogflowApp({ request, response });
   app.handleRequest(actionMap);
 };

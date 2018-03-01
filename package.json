@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.39",
     "actions-on-google": "^1.8.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.3.0",
     "fast-levenshtein": "^2.0.6",
     "transloc-api": "^1.0.16"
   },
@@ -37,7 +38,8 @@
     "prettierFiles": "{*,**/*}.{js,json} README.md"
   },
   "scripts": {
-    "build": "babel -d lib/ src/",
+    "build":
+      ": ${ALLOWED_AUTHORIZATION?\"Authorization header missing\"} && babel -d lib/ src/",
     "test": "jest",
     "fix-style": "prettier --write $npm_package_config_prettierFiles",
     "check-style":
@@ -51,7 +53,11 @@
   "babel": {
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-object-rest-spread"
+      "@babel/plugin-proposal-object-rest-spread",
+      [
+        "transform-inline-environment-variables",
+        { "include": "ALLOWED_AUTHORIZATION" }
+      ]
     ],
     "presets": [
       [
