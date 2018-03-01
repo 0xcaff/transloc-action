@@ -10,7 +10,7 @@
     "actions-on-google": "^1.8.2",
     "babel-plugin-transform-inline-environment-variables": "^0.3.0",
     "fast-levenshtein": "^2.0.6",
-    "transloc-api": "^1.0.16"
+    "transloc-api": "^1.0.17"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.39",
