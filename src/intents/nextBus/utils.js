@@ -1,11 +1,11 @@
 // @flow
 import type { Stop } from "transloc-api";
 
-import type { Coords } from "../../utils";
+import type { Coordinates } from "actions-on-google";
 import { coordsToPosition, distance, lowestCost } from "../../utils";
 
 // Find the nearest stop the the specified co-ordinates.
-export const findNearestStop = (to: Coords, stops: Stop[]): ?Stop =>
+export const findNearestStop = (to: Coordinates, stops: Stop[]): ?Stop =>
   lowestCost(stops, stop => {
     const devicePosition = coordsToPosition(to);
     const distanceToStop = distance(devicePosition, (stop.position: any));

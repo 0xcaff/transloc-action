@@ -1,5 +1,6 @@
 // @flow
 import type { Position } from "transloc-api";
+import type { Coordinates } from "actions-on-google";
 import { now } from "./now";
 import levenshtein from "fast-levenshtein";
 
@@ -34,12 +35,7 @@ export const lowestCost = <T>(list: T[], costFn: T => number): ?T => {
   return cheapestItem;
 };
 
-export type Coords = {
-  latitude: number,
-  longitude: number
-};
-
-export const coordsToPosition = (c: Coords): Position => [
+export const coordsToPosition = (c: Coordinates): Position => [
   c.latitude,
   c.longitude
 ];
