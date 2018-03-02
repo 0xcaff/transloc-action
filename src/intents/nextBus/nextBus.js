@@ -5,16 +5,23 @@ import type { Stop } from "transloc-api";
 import { getStops } from "../../data";
 
 import logger from "../../logger";
-import { agencies } from "../../data/agencies";
 import { findAndShowArrivals } from "./responses";
 import type { Result } from "../../result";
 import { resolveFromStop, resolveToStop } from "./resolve";
 import { FROM_STOP_KEY, storeLocationContext } from "./context";
 import { convertResult } from "../../result";
+import { getUserAgency } from "./agencies";
 
 // The intent handler for the next bus intent.
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   logger.info("handling next bus intent");
+
+  const agency = await getUserAgency(app);
+  if (agency.type === "DELEGATING") {
+    return;
+  }
+
+  const agencies = [agency.value];
 
   const { stops, routes } = await getStops({
     agencies,
@@ -46,5 +53,11 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
   const convertedMaybeToStop: ?Stop = convertResult(maybeToStop);
 
-  return findAndShowArrivals(app, fromStop, convertedMaybeToStop, routes);
+  return findAndShowArrivals(
+    app,
+    fromStop,
+    convertedMaybeToStop,
+    routes,
+    agencies
+  );
 };
