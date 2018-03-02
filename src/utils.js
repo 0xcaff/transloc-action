@@ -96,6 +96,10 @@ export const stringifyDuration = (simpleDuration: SimpleDuration): string => {
     simpleDuration.seconds
   )}`;
 
+  if (simpleDuration.minutes < 1) {
+    return secs;
+  }
+
   return `${mins} and ${secs}`;
 };
 
