@@ -70,6 +70,8 @@ declare module "actions-on-google" {
     SupportedPermissions: SupportedPermissions;
     SurfaceCapabilities: SurfaceCapabilities;
 
+    userStorage: Object;
+
     isPermissionGranted(): boolean;
     askForPermission(
       context: string,

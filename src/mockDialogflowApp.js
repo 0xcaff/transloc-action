@@ -12,6 +12,7 @@ import {
   List,
   OptionItem
 } from "actions-on-google/response-builder";
+import type { UserData } from "./userData";
 
 type RecordedPermission = {
   context: string,
@@ -37,6 +38,9 @@ export class MockDialogflowApp {
   selectedOption: ?string;
   surfaceCapabilities: Set<SurfaceCapability> = new Set();
   context: Map<string, Context<Object>> = new Map();
+  userStorage: UserData = {
+    agency_id: 643
+  };
 
   constructor(args: Map<string, any> = new Map()) {
     this.args = args;
