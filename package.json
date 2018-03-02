@@ -55,7 +55,9 @@
       "@babel/plugin-proposal-object-rest-spread",
       [
         "transform-inline-environment-variables",
-        { "include": "ALLOWED_AUTHORIZATION" }
+        {
+          "include": "ALLOWED_AUTHORIZATION"
+        }
       ]
     ],
     "presets": [
