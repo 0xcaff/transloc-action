@@ -114,7 +114,7 @@ jobs:
 
       - run:
           name: Save Credentials
-          command: echo $DIALOGFLOW_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
 
       - run:
           name: Deploy Dialogflow
