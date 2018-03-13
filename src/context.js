@@ -1,7 +1,7 @@
 // @flow
 import type { Stop } from "transloc-api";
 import type { DialogflowApp } from "actions-on-google";
-import type { Result } from "../../result";
+import type { Result } from "./result";
 import { getStopById } from "./resolve";
 
 export opaque type LocationKey = string;

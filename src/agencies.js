@@ -1,16 +1,12 @@
 // @flow
 import type { DialogflowApp, Coordinates } from "actions-on-google";
-import type {
-  ResultDelegating,
-  ResultEmpty,
-  ResultSuccess
-} from "../../result";
+import type { ResultDelegating, ResultEmpty, ResultSuccess } from "./result";
 import { mustGetLocation } from "./resolve";
-import { coordsToPosition, distance, lowestCost } from "../../utils";
-import { getAgencies } from "../../data/agencies";
+import { coordsToPosition, distance, lowestCost } from "./utils";
+import { getAgencies } from "./data/agencies";
 import type { Agency } from "transloc-api";
-import type { UserData } from "../../userData";
-import logger from "../../logger";
+import type { UserData } from "./userData";
+import logger from "./logger";
 
 // Gets the user's agency. If none is set, sets it to the nearest agency.
 export const getUserAgency = async (

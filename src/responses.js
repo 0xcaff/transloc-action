@@ -1,7 +1,7 @@
 // @flow
 import type { Stop, RouteStops } from "transloc-api";
 import type { DialogflowApp, List, OptionItem } from "actions-on-google";
-import type { ArrivalWithRoute } from "../../data";
+import type { ArrivalWithRoute } from "./data/index";
 import {
   pluralizeByCount,
   pluralizeDo,
@@ -9,11 +9,11 @@ import {
   sortByDistance,
   stringifyDuration,
   timeUntil
-} from "../../utils";
-import { now } from "../../now";
-import type { OptionKey, OptionType } from "./option";
-import logger from "../../logger";
-import { getArrivalsWithRoute, stitchRouteStops } from "../../data";
+} from "./utils";
+import { now } from "./now";
+import type { OptionKey, OptionType } from "./intents/nextBusOption";
+import logger from "./logger";
+import { getArrivalsWithRoute, stitchRouteStops } from "./data/index";
 
 export const findAndShowArrivals = async (
   app: DialogflowApp,

@@ -1,16 +1,16 @@
 // @flow
 import type { DialogflowApp } from "actions-on-google";
 import type { Stop } from "transloc-api";
-import { getStops } from "../../data/index";
-import logger from "../../logger";
-import { FROM_STOP_KEY, storeLocationContext } from "./context";
-import { findNearestStop } from "./utils";
-import { displayStopsList, findAndShowArrivals } from "./responses";
-import { FROM_OPTION_TYPE } from "./option";
-import type { Result } from "../../result";
-import { resolveToStop } from "./resolve";
-import { convertResult, must } from "../../result";
-import { getStoredUserAgency } from "./agencies";
+import { getStops } from "../data/index";
+import logger from "../logger";
+import { FROM_STOP_KEY, storeLocationContext } from "../context";
+import { findNearestStop } from "../resolve";
+import { displayStopsList, findAndShowArrivals } from "../responses";
+import { FROM_OPTION_TYPE } from "./nextBusOption";
+import type { Result } from "../result";
+import { resolveToStop } from "../resolve";
+import { convertResult, must } from "../result";
+import { getStoredUserAgency } from "../agencies";
 
 // Called in response to a permission request for the current location.
 export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {

@@ -2,15 +2,15 @@
 import type { DialogflowApp } from "actions-on-google";
 import type { Stop } from "transloc-api";
 
-import { getStops } from "../../data";
+import { getStops } from "../data/index";
 
-import logger from "../../logger";
-import { findAndShowArrivals } from "./responses";
-import type { Result } from "../../result";
-import { resolveFromStop, resolveToStop } from "./resolve";
-import { FROM_STOP_KEY, storeLocationContext } from "./context";
-import { convertResult } from "../../result";
-import { getUserAgency } from "./agencies";
+import logger from "../logger";
+import { findAndShowArrivals } from "../responses";
+import type { Result } from "../result";
+import { resolveFromStop, resolveToStop } from "../resolve";
+import { FROM_STOP_KEY, storeLocationContext } from "../context";
+import { convertResult } from "../result";
+import { getUserAgency } from "../agencies";
 
 // The intent handler for the next bus intent.
 export const nextBus = async (app: DialogflowApp): Promise<void> => {

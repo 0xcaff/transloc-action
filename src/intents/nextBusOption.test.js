@@ -1,12 +1,12 @@
 // @flow
-jest.mock("../../now");
+jest.mock("../now");
 
-import { MockDialogflowApp } from "../../mockDialogflowApp";
-import { FROM_ARGUMENT, TO_ARGUMENT } from "./arguments";
+import { MockDialogflowApp } from "../mockDialogflowApp";
+import { FROM_ARGUMENT, TO_ARGUMENT } from "../arguments";
 import { DialogflowApp } from "actions-on-google";
 
-import { nextBusOption } from "./option";
-import { FROM_STOP_KEY } from "./context";
+import { nextBusOption } from "./nextBusOption";
+import { FROM_STOP_KEY } from "../context";
 
 it(`uses the list key for the "to" field`, async () => {
   const app = new MockDialogflowApp();

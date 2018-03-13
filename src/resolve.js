@@ -1,16 +1,47 @@
 // @flow
-import type { Stop } from "transloc-api/lib/endpoints/stops";
+import type { Stop } from "transloc-api";
+import type {
+  DeviceLocation,
+  FineDeviceLocation,
+  Coordinates
+} from "actions-on-google";
 import { DialogflowApp } from "actions-on-google";
-import type { FineDeviceLocation, DeviceLocation } from "actions-on-google";
-import type { OptionKey, OptionType } from "./option";
-import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./option";
-import { findMatchingStop, findNearestStop } from "./utils";
-import logger from "../../logger";
-import { sortByDistance } from "../../utils";
+import type { OptionKey, OptionType } from "./intents/nextBusOption";
+import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./intents/nextBusOption";
+import logger from "./logger";
+import {
+  coordsToPosition,
+  distance,
+  lowestCost,
+  sortByDistance
+} from "./utils";
 import { handleUnknownStops } from "./responses";
 import { getFromArg, getToArg } from "./arguments";
-import type { Result, ResultDelegating, ResultSuccess } from "../../result";
+import type { Result, ResultDelegating, ResultSuccess } from "./result";
 
+// Find the nearest stop the the specified co-ordinates.
+export const findNearestStop = (to: Coordinates, stops: Stop[]): ?Stop =>
+  lowestCost(stops, stop => {
+    const devicePosition = coordsToPosition(to);
+    const distanceToStop = distance(devicePosition, (stop.position: any));
+
+    return distanceToStop;
+  });
+
+// Finds the stop which most closely matches the query. If there isn't a
+// close match, returns null.
+export const findMatchingStop = (query: ?string, stops: Stop[]): ?Stop => {
+  if (!query) {
+    return;
+  }
+
+  const normalizedFrom = query.toLowerCase().trim();
+  const stop = stops.find(
+    element => element.name.toLowerCase().trim() === normalizedFrom
+  );
+
+  return stop;
+};
 // Find a stop matching the specified query. If none can be found, a list of
 // stops is shown to the user.
 const findOrRequestMatchingStop = (
