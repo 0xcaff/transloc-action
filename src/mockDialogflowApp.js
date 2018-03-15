@@ -37,6 +37,7 @@ export class MockDialogflowApp {
   selectedOption: ?string;
   surfaceCapabilities: Set<SurfaceCapability> = new Set();
   context: Map<string, Context<Object>> = new Map();
+  userStorage: Object = {};
 
   constructor(args: Map<string, any> = new Map()) {
     this.args = args;

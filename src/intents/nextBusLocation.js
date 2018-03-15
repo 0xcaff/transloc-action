@@ -1,19 +1,33 @@
 // @flow
 import type { DialogflowApp } from "actions-on-google";
 import type { Stop } from "transloc-api";
-import { getStops } from "../../data/index";
-import { agencies } from "../../data/agencies";
-import logger from "../../logger";
-import { FROM_STOP_KEY, storeLocationContext } from "./context";
-import { findNearestStop } from "./utils";
-import { displayStopsList, findAndShowArrivals } from "./responses";
-import { FROM_OPTION_TYPE } from "./option";
-import type { StopResult } from "./resolve";
-import { convertStopResult, resolveToStop } from "./resolve";
+import { getStops } from "../data/index";
+import logger from "../logger";
+import { FROM_STOP_KEY, storeLocationContext } from "../context";
+import { findNearestStop } from "../resolve";
+import { displayStopsList, findAndShowArrivals } from "../responses";
+import { FROM_OPTION_TYPE } from "./nextBusOption";
+import type { Result } from "../result";
+import { resolveToStop } from "../resolve";
+import { convertResult, must } from "../result";
+import { getStoredUserAgency } from "../agencies";
 
 // Called in response to a permission request for the current location.
 export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
   logger.info("nextBusLocation");
+
+  const agency = must(
+    app,
+    getStoredUserAgency(app),
+    `Sorry, but I don't know which agency you belong to. Please try again later.`,
+    "missing stored agency"
+  );
+
+  if (agency.type === "DELEGATING") {
+    return;
+  }
+
+  const agencies = [agency.value];
 
   const { stops, routes } = await getStops({ agencies, include_stops: true });
   const location = app.getDeviceLocation();
@@ -45,15 +59,21 @@ export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
   storeLocationContext(app, FROM_STOP_KEY, nearestStop);
 
   // Get "to" Information
-  const maybeToStop: StopResult = resolveToStop(app, stops);
+  const maybeToStop: Result<Stop> = resolveToStop(app, stops);
   if (maybeToStop.type === "DELEGATING") {
     logger.info("delegating to stop resolution");
     return;
   }
 
-  const convertedMaybeToStop: ?Stop = convertStopResult(maybeToStop);
+  const convertedMaybeToStop: ?Stop = convertResult(maybeToStop);
 
-  return findAndShowArrivals(app, nearestStop, convertedMaybeToStop, routes);
+  return findAndShowArrivals(
+    app,
+    nearestStop,
+    convertedMaybeToStop,
+    routes,
+    agencies
+  );
 };
 
 const handleFailure = (message: string, app: DialogflowApp, stops: Stop[]) => {

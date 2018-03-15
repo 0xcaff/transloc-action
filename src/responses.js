@@ -1,7 +1,7 @@
 // @flow
 import type { Stop, RouteStops } from "transloc-api";
 import type { DialogflowApp, List, OptionItem } from "actions-on-google";
-import type { ArrivalWithRoute } from "../../data";
+import type { ArrivalWithRoute } from "./data/index";
 import {
   pluralizeByCount,
   pluralizeDo,
@@ -9,19 +9,20 @@ import {
   sortByDistance,
   stringifyDuration,
   timeUntil
-} from "../../utils";
-import { now } from "../../now";
-import type { OptionKey, OptionType } from "./option";
-import logger from "../../logger";
-import { getArrivalsWithRoute, stitchRouteStops } from "../../data";
+} from "./utils";
+import { now } from "./now";
+import type { OptionKey, OptionType } from "./intents/nextBusOption";
+import logger from "./logger";
+import { getArrivalsWithRoute, stitchRouteStops } from "./data/index";
 
 export const findAndShowArrivals = async (
   app: DialogflowApp,
   from: Stop,
   maybeTo: ?Stop,
-  routes: ?(RouteStops[])
+  routes: ?(RouteStops[]),
+  agencies: number[]
 ): Promise<void> => {
-  const arrivals = await findArrivals(app, from, maybeTo, routes);
+  const arrivals = await findArrivals(app, from, maybeTo, routes, agencies);
   if (!arrivals) {
     return;
   }
@@ -35,9 +36,10 @@ const findArrivals = async (
   app: DialogflowApp,
   from: Stop,
   maybeTo: ?Stop,
-  routes: ?(RouteStops[])
+  routes: ?(RouteStops[]),
+  agencies: number[]
 ): Promise<?$ReadOnlyArray<ArrivalWithRoute>> => {
-  const arrivals = await getArrivalsWithRoute(from);
+  const arrivals = await getArrivalsWithRoute(agencies, from);
 
   if (maybeTo) {
     const to: Stop = maybeTo;

@@ -2,22 +2,15 @@
 import type { DialogflowApp } from "actions-on-google";
 import type { Stop } from "transloc-api";
 
-import { getStops } from "../../data";
-import logger from "../../logger";
-import { agencies } from "../../data/agencies";
-import {
-  convertStopResult,
-  getStopFromOption,
-  must,
-  resolveToStop
-} from "./resolve";
-import { FROM_STOP_KEY, getStopFromContext, TO_STOP_KEY } from "./context";
-import type {
-  StopResult,
-  StopResultDelegating,
-  StopResultSuccess
-} from "./resolve";
-import { findAndShowArrivals } from "./responses";
+import { getStops } from "../data/index";
+import logger from "../logger";
+import { getStopFromOption, resolveToStop } from "../resolve";
+import { FROM_STOP_KEY, getStopFromContext, TO_STOP_KEY } from "../context";
+import type { Result } from "../result";
+import { findAndShowArrivals } from "../responses";
+import type { ResultDelegating, ResultSuccess } from "../result";
+import { convertResult, must } from "../result";
+import { getStoredUserAgency } from "../agencies";
 
 export type OptionKey = {
   id: number,
@@ -42,6 +35,19 @@ const getOption = (app: DialogflowApp): ?OptionKey => {
 export const nextBusOption = async (app: DialogflowApp) => {
   logger.info("nextBusOption");
 
+  const agency = must(
+    app,
+    getStoredUserAgency(app),
+    `Sorry, but I don't know which agency you belong to. Please try again later.`,
+    "missing stored agency"
+  );
+
+  if (agency.type === "DELEGATING") {
+    return;
+  }
+
+  const agencies = [agency.value];
+
   const { stops, routes } = await getStops({
     agencies,
     include_routes: true
@@ -57,16 +63,16 @@ export const nextBusOption = async (app: DialogflowApp) => {
     return;
   }
 
-  const from: Stop = fromResult.stop;
+  const from: Stop = fromResult.value;
 
   const toResult = resolveTo(app, option, stops);
   if (toResult.type === "DELEGATING") {
     return;
   }
 
-  const maybeTo: ?Stop = convertStopResult(toResult);
+  const maybeTo: ?Stop = convertResult(toResult);
 
-  return findAndShowArrivals(app, from, maybeTo, routes);
+  return findAndShowArrivals(app, from, maybeTo, routes, agencies);
 };
 
 // Resolve the "from" stop.
@@ -74,7 +80,7 @@ const resolveFrom = (
   app: DialogflowApp,
   option: OptionKey,
   stops: Stop[]
-): StopResultSuccess | StopResultDelegating => {
+): ResultSuccess<Stop> | ResultDelegating => {
   // At this point the "from" attribute has been resolved into a context or
   // it is the response to the option selection.
 
@@ -107,7 +113,7 @@ const resolveTo = (
   app: DialogflowApp,
   option: OptionKey,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   const maybeOptionLocation = getStopFromOption(
     app,
     option,

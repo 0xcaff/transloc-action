@@ -6,6 +6,6 @@ import logger from "../logger";
 
 export const getStops = async function<T: Object>(args: T): Promise<Stops> {
   const response = await getStopsImpl(args);
-  logger.info({ response }, "getStops called");
+  logger.info({ response, args }, "getStops called");
   return response;
 };

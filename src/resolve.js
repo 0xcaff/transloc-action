@@ -1,40 +1,47 @@
 // @flow
-import type { Stop } from "transloc-api/lib/endpoints/stops";
+import type { Stop } from "transloc-api";
+import type {
+  DeviceLocation,
+  FineDeviceLocation,
+  Coordinates
+} from "actions-on-google";
 import { DialogflowApp } from "actions-on-google";
-import type { OptionKey, OptionType } from "./option";
-import { findMatchingStop, findNearestStop } from "./utils";
-import logger from "../../logger";
-import { sortByDistance } from "../../utils";
+import type { OptionKey, OptionType } from "./intents/nextBusOption";
+import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./intents/nextBusOption";
+import logger from "./logger";
+import {
+  coordsToPosition,
+  distance,
+  lowestCost,
+  sortByDistance
+} from "./utils";
 import { handleUnknownStops } from "./responses";
-import { FROM_OPTION_TYPE, TO_OPTION_TYPE } from "./option";
 import { getFromArg, getToArg } from "./arguments";
+import type { Result, ResultDelegating, ResultSuccess } from "./result";
 
-// A request has been made for more information from the user.
-export type StopResultDelegating = { type: "DELEGATING" };
+// Find the nearest stop the the specified co-ordinates.
+export const findNearestStop = (to: Coordinates, stops: Stop[]): ?Stop =>
+  lowestCost(stops, stop => {
+    const devicePosition = coordsToPosition(to);
+    const distanceToStop = distance(devicePosition, (stop.position: any));
 
-// The stop has successfully been resolved.
-export type StopResultSuccess = { type: "SUCCESS", stop: Stop };
+    return distanceToStop;
+  });
 
-// There is no stop to resolve.
-export type StopResultEmpty = { type: "EMPTY" };
-
-// A container the result of a stop resolution.
-export type StopResult =
-  | StopResultDelegating
-  | StopResultSuccess
-  | StopResultEmpty;
-
-// Converts StopResult to a ?Stop.
-export const convertStopResult = (
-  r: StopResultSuccess | StopResultEmpty
-): ?Stop => {
-  if (r.type === "EMPTY") {
-    return null;
+// Finds the stop which most closely matches the query. If there isn't a
+// close match, returns null.
+export const findMatchingStop = (query: ?string, stops: Stop[]): ?Stop => {
+  if (!query) {
+    return;
   }
 
-  return r.stop;
-};
+  const normalizedFrom = query.toLowerCase().trim();
+  const stop = stops.find(
+    element => element.name.toLowerCase().trim() === normalizedFrom
+  );
 
+  return stop;
+};
 // Find a stop matching the specified query. If none can be found, a list of
 // stops is shown to the user.
 const findOrRequestMatchingStop = (
@@ -42,7 +49,7 @@ const findOrRequestMatchingStop = (
   query: string,
   stops: Stop[],
   type: OptionType
-): StopResult => {
+): Result<Stop> => {
   // From was provided, try finding a matching stop.
   const stop = findMatchingStop(query, stops);
   logger.info({ stop }, `found matching "${(type: any)}" stop`);
@@ -52,7 +59,7 @@ const findOrRequestMatchingStop = (
     return { type: "DELEGATING" };
   }
 
-  return { type: "SUCCESS", stop: stop };
+  return { type: "SUCCESS", value: stop };
 };
 
 // Displays a list of stops, sorted by closest match to furthest match.
@@ -75,7 +82,7 @@ const askWithStopList = (
 export const resolveToStop = (
   app: DialogflowApp,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   const to: ?string = getToArg(app);
   if (!to) {
     return { type: "EMPTY" };
@@ -89,7 +96,7 @@ export const resolveToStop = (
 export const resolveFromStop = (
   app: DialogflowApp,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   const from: ?string = getFromArg(app);
 
   if (!from) {
@@ -101,26 +108,24 @@ export const resolveFromStop = (
   return findOrRequestMatchingStop(app, from, stops, FROM_OPTION_TYPE);
 };
 
-// Get's the stop nearest to the current location. If the location isn't
-// available, requests it.
-const getStopByLocation = (app: DialogflowApp, stops: Stop[]): StopResult => {
-  const location = app.getDeviceLocation();
+// Gets the precise current location. If provided previously in the session,
+// that location is used. Otherwise, requests the precise location.
+export const mustGetLocation = (
+  app: DialogflowApp,
+  reason: string
+): ResultSuccess<FineDeviceLocation> | ResultDelegating => {
+  const location: ?DeviceLocation = app.getDeviceLocation();
   if (location && location.coordinates) {
     // The location was provided previously, let's use it.
 
-    const { coordinates: deviceCoordinates } = location;
-    const nearestStop = findNearestStop(deviceCoordinates, stops);
-
-    if (nearestStop) {
-      return { type: "SUCCESS", stop: nearestStop };
-    }
+    return { type: "SUCCESS", value: location };
   }
 
   // There was no suitable location, let's ask for permission.
   logger.info("requesting location permission");
 
   const fromLocation = app.askForPermission(
-    "To find the nearest stop",
+    reason,
     app.SupportedPermissions.DEVICE_PRECISE_LOCATION
   );
 
@@ -130,8 +135,26 @@ const getStopByLocation = (app: DialogflowApp, stops: Stop[]): StopResult => {
 
   // After this, the location is collected and the intent with the event
   // actions_intent_PERMISSION is triggered.
-
   return { type: "DELEGATING" };
+};
+
+// Get's the stop nearest to the current location. If the location isn't
+// available, requests it.
+const getStopByLocation = (app: DialogflowApp, stops: Stop[]): Result<Stop> => {
+  const locationResult = mustGetLocation(app, "To find the nearest stop");
+
+  if (locationResult.type === "DELEGATING") {
+    return locationResult;
+  }
+
+  const { coordinates: deviceCoordinates } = locationResult.value;
+  const nearestStop = findNearestStop(deviceCoordinates, stops);
+
+  if (!nearestStop) {
+    return { type: "EMPTY" };
+  }
+
+  return { type: "SUCCESS", value: nearestStop };
 };
 
 export const getStopFromOption = (
@@ -139,7 +162,7 @@ export const getStopFromOption = (
   option: OptionKey,
   type: OptionType,
   stops: Stop[]
-): StopResult => {
+): Result<Stop> => {
   if (option.type !== type) {
     return { type: "EMPTY" };
   }
@@ -151,23 +174,7 @@ export const getStopFromOption = (
     return { type: "DELEGATING" };
   }
 
-  return { type: "SUCCESS", stop };
-};
-
-// Reports an error for empty results.
-export const must = (
-  app: DialogflowApp,
-  r: StopResult,
-  message: string,
-  logMessage: string
-): StopResultSuccess | StopResultDelegating => {
-  if (r.type === "EMPTY") {
-    app.tell(message);
-    logger.warn(logMessage);
-    return { type: "DELEGATING" };
-  }
-
-  return r;
+  return { type: "SUCCESS", value: stop };
 };
 
 export const getStopById = (stopId: number, stops: Stop[]): ?Stop =>

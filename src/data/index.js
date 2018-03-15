@@ -3,7 +3,6 @@ import { getArrivals, getRoutes } from "transloc-api";
 import type { Arrival, Route, RouteStops, Stop } from "transloc-api";
 
 import logger from "../logger";
-import { agencies } from "./agencies";
 import { makeMap, mustGet } from "../utils";
 export { getStops } from "./stops";
 
@@ -12,6 +11,7 @@ export type ArrivalWithRouteStops = Arrival & { +route: RouteWithStop };
 export type RouteWithStop = Route & RouteStops;
 
 export const getArrivalsWithRoute = async (
+  agencies: number[],
   stop: Stop
 ): Promise<ArrivalWithRoute[]> => {
   const arrivalsResponse = await getArrivals({ agencies, stop_id: stop.id });

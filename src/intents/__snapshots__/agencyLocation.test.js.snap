@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sets the agency based on the location 1`] = `
+Object {
+  "response": "The following buses are arriving at Gleason Circle. Perkins - Park Point in 11 minutes; Colony Manor / The Province in 16 minutes; RIT Inn in 16 minutes; Racquet Club in 27 minutes; Perkins - Park Point in 32 minutes.",
+  "type": "TELL",
+}
+`;
+
+exports[`sets the agency based on the location 2`] = `
+Object {
+  "agency_id": 283,
+}
+`;
