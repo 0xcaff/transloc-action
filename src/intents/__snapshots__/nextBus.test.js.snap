@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`requests the location for the agency if not provided 1`] = `
+Object {
+  "permission": Object {
+    "context": "To find the nearest transit agency",
+    "dialogState": undefined,
+    "permission": "DEVICE_PRECISE_LOCATION",
+  },
+  "type": "ASK_FOR_PERMISSION",
+}
+`;
+
+exports[`requests the location for the agency if not provided 2`] = `Map {}`;
+
 exports[`requests the location when "from" is not provided 1`] = `
 Object {
   "permission": Object {

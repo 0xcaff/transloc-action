@@ -18,6 +18,7 @@ it(`uses the list key for the "to" field`, async () => {
       stopId: 4197446
     }
   });
+  app.userStorage = { agency_id: 643 };
 
   const realApp: DialogflowApp = (app: any);
   app.selectedOption = JSON.stringify({ id: 4209568, type: TO_ARGUMENT });
@@ -30,6 +31,7 @@ it(`uses the list key for the "to" field`, async () => {
 
 it(`uses the list key for the "from" field`, async () => {
   const app = new MockDialogflowApp();
+  app.userStorage = { agency_id: 643 };
 
   const realApp: DialogflowApp = (app: any);
   app.selectedOption = JSON.stringify({ id: 4197446, type: FROM_ARGUMENT });

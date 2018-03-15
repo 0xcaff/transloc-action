@@ -29,7 +29,7 @@ export const getUserAgency = async (
     return locationResult;
   }
 
-  return findUserAgency(app, locationResult.value);
+  return await findUserAgency(app, locationResult.value);
 };
 
 export const findUserAgency = async (
