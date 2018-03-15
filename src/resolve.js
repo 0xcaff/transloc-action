@@ -108,7 +108,8 @@ export const resolveFromStop = (
   return findOrRequestMatchingStop(app, from, stops, FROM_OPTION_TYPE);
 };
 
-// Tries to retrive the current location. Requests if needed.
+// Gets the precise current location. If provided previously in the session,
+// that location is used. Otherwise, requests the precise location.
 export const mustGetLocation = (
   app: DialogflowApp,
   reason: string

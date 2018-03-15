@@ -21,7 +21,14 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
     return;
   }
 
-  const agencies = [agency.value];
+  await nextBusWithAgency(app, agency.value);
+};
+
+export const nextBusWithAgency = async (
+  app: DialogflowApp,
+  agency: number
+): Promise<void> => {
+  const agencies = [agency];
 
   const { stops, routes } = await getStops({
     agencies,
@@ -53,7 +60,7 @@ export const nextBus = async (app: DialogflowApp): Promise<void> => {
 
   const convertedMaybeToStop: ?Stop = convertResult(maybeToStop);
 
-  return findAndShowArrivals(
+  await findAndShowArrivals(
     app,
     fromStop,
     convertedMaybeToStop,

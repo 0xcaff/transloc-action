@@ -31,10 +31,18 @@ export const must = <T>(
   logMessage: string
 ): ResultSuccess<T> | ResultDelegating => {
   if (r.type === "EMPTY") {
-    app.tell(message);
-    logger.warn(logMessage);
+    fail(app, message, logMessage);
     return { type: "DELEGATING" };
   }
 
   return r;
+};
+
+export const fail = (
+  app: DialogflowApp,
+  message: string,
+  logMessage: string
+): void => {
+  app.tell(message);
+  logger.warn(logMessage);
 };
