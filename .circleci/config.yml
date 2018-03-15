@@ -139,4 +139,4 @@ workflows:
 
       - deploy-dialogflow:
           requires:
-            - hold
+            - deploy-function
