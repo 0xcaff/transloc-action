@@ -16,7 +16,6 @@ const location: DeviceLocation = {
 
 it(`requests the location when "from" is not provided`, async () => {
   const app = new MockDialogflowApp();
-  app.userStorage = { agency_id: 643 };
   app.permissionGranted = false;
 
   await nextBus((app: any));
@@ -27,7 +26,6 @@ it(`requests the location when "from" is not provided`, async () => {
 
 it(`uses a previously authorized location if provided`, async () => {
   const app = new MockDialogflowApp();
-  app.userStorage = { agency_id: 643 };
   app.deviceLocation = location;
   app.permissionGranted = false;
 
@@ -39,7 +37,6 @@ it(`uses a previously authorized location if provided`, async () => {
 
 it("works with an explicit source location", async () => {
   const app = new MockDialogflowApp(new Map([["from", "Gleason Circle"]]));
-  app.userStorage = { agency_id: 643 };
   app.permissionGranted = false;
 
   await nextBus((app: any));
@@ -56,7 +53,6 @@ it("works with an explicit source and destination", async () => {
     ])
   );
   app.permissionGranted = false;
-  app.userStorage = { agency_id: 643 };
 
   await nextBus((app: any));
 
@@ -70,7 +66,6 @@ it("works with a location based source and explicit destination", async () => {
   );
   app.permissionGranted = true;
   app.deviceLocation = location;
-  app.userStorage = { agency_id: 643 };
 
   await nextBus((app: any));
 
@@ -82,7 +77,6 @@ it("works on a route without any buses", async () => {
   const app = new MockDialogflowApp(
     new Map([[FROM_ARGUMENT, "Gleason Circle"], [TO_ARGUMENT, "Target"]])
   );
-  app.userStorage = { agency_id: 643 };
 
   await nextBus((app: any));
 
@@ -94,7 +88,6 @@ it("should not return a list on incompatible surfaces", async () => {
   const app = new MockDialogflowApp(
     new Map([[FROM_ARGUMENT, "Gleason Circle"], [TO_ARGUMENT, "Unknown"]])
   );
-  app.userStorage = { agency_id: 643 };
   const realApp: DialogflowApp = (app: any);
   app.surfaceCapabilities.add(realApp.SurfaceCapabilities.AUDIO_OUTPUT);
 
@@ -111,22 +104,11 @@ it("should return a list on compatible surfaces", async () => {
       [TO_ARGUMENT, "Barnes and Noble"]
     ])
   );
-  app.userStorage = { agency_id: 643 };
   const realApp: DialogflowApp = (app: any);
   app.surfaceCapabilities.add(realApp.SurfaceCapabilities.AUDIO_OUTPUT);
   app.surfaceCapabilities.add(realApp.SurfaceCapabilities.SCREEN_OUTPUT);
 
   await nextBus(realApp);
-
-  expect(app.response).toMatchSnapshot();
-  expect(app.contextOut).toMatchSnapshot();
-});
-
-it(`requests the location for the agency if not provided`, async () => {
-  const app = new MockDialogflowApp();
-  app.permissionGranted = false;
-
-  await nextBus((app: any));
 
   expect(app.response).toMatchSnapshot();
   expect(app.contextOut).toMatchSnapshot();

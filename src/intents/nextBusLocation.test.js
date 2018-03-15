@@ -17,7 +17,6 @@ it(`works with the location provided`, async () => {
   const app = new MockDialogflowApp();
   app.deviceLocation = location;
   app.permissionGranted = true;
-  app.userStorage = { agency_id: 643 };
 
   await nextBusLocation((app: any));
 
@@ -29,7 +28,6 @@ it(`fails when permission is granted but location isn't provided`, async () => {
   const app = new MockDialogflowApp();
   app.deviceLocation = null;
   app.permissionGranted = true;
-  app.userStorage = { agency_id: 643 };
 
   await nextBusLocation((app: any));
 
@@ -41,7 +39,6 @@ it(`works when "to" is specified correctly`, async () => {
   const app = new MockDialogflowApp(new Map([[TO_ARGUMENT, "Perkins Green"]]));
   app.deviceLocation = location;
   app.permissionGranted = true;
-  app.userStorage = { agency_id: 643 };
 
   await nextBusLocation((app: any));
 
@@ -53,7 +50,6 @@ it(`fails when "to" is specified incorrectly`, async () => {
   const app = new MockDialogflowApp(new Map([[TO_ARGUMENT, "Park Point"]]));
   app.deviceLocation = location;
   app.permissionGranted = true;
-  app.userStorage = { agency_id: 643 };
 
   await nextBusLocation((app: any));
 

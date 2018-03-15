@@ -9,25 +9,12 @@ import { displayStopsList, findAndShowArrivals } from "../responses";
 import { FROM_OPTION_TYPE } from "./nextBusOption";
 import type { Result } from "../result";
 import { resolveToStop } from "../resolve";
-import { convertResult, must } from "../result";
-import { getStoredUserAgency } from "../agencies";
+import { convertResult } from "../result";
+import { agencies } from "../data/agencies";
 
 // Called in response to a permission request for the current location.
 export const nextBusLocation = async (app: DialogflowApp): Promise<void> => {
   logger.info("nextBusLocation");
-
-  const agency = must(
-    app,
-    getStoredUserAgency(app),
-    `Sorry, but I don't know which agency you belong to. Please try again later.`,
-    "missing stored agency"
-  );
-
-  if (agency.type === "DELEGATING") {
-    return;
-  }
-
-  const agencies = [agency.value];
 
   const { stops, routes } = await getStops({ agencies, include_stops: true });
   const location = app.getDeviceLocation();

@@ -10,25 +10,11 @@ import type { Result } from "../result";
 import { resolveFromStop, resolveToStop } from "../resolve";
 import { FROM_STOP_KEY, storeLocationContext } from "../context";
 import { convertResult } from "../result";
-import { getUserAgency } from "../agencies";
+import { agencies } from "../data/agencies";
 
 // The intent handler for the next bus intent.
 export const nextBus = async (app: DialogflowApp): Promise<void> => {
   logger.info("handling next bus intent");
-
-  const agency = await getUserAgency(app);
-  if (agency.type === "DELEGATING") {
-    return;
-  }
-
-  await nextBusWithAgency(app, agency.value);
-};
-
-export const nextBusWithAgency = async (
-  app: DialogflowApp,
-  agency: number
-): Promise<void> => {
-  const agencies = [agency];
 
   const { stops, routes } = await getStops({
     agencies,

@@ -10,7 +10,7 @@ import type { Result } from "../result";
 import { findAndShowArrivals } from "../responses";
 import type { ResultDelegating, ResultSuccess } from "../result";
 import { convertResult, must } from "../result";
-import { getStoredUserAgency } from "../agencies";
+import { agencies } from "../data/agencies";
 
 export type OptionKey = {
   id: number,
@@ -34,19 +34,6 @@ const getOption = (app: DialogflowApp): ?OptionKey => {
 // Called when an options menu was used to clarify a selection.
 export const nextBusOption = async (app: DialogflowApp) => {
   logger.info("nextBusOption");
-
-  const agency = must(
-    app,
-    getStoredUserAgency(app),
-    `Sorry, but I don't know which agency you belong to. Please try again later.`,
-    "missing stored agency"
-  );
-
-  if (agency.type === "DELEGATING") {
-    return;
-  }
-
-  const agencies = [agency.value];
 
   const { stops, routes } = await getStops({
     agencies,
