@@ -2,11 +2,34 @@
 
 [![Build Status][build-status-image]][build-status]
 
-A dialogflow action for information exposed by the transloc API.
+An Action on Google for Rochester Institute of Technology bus arrival times.
+Data is fetched from Transloc, a service which to provide realtime bus arrival
+information. The code can easily be adapted to work with other Transloc
+agencies.
+
+## Deploying
+
+This action is deployed by CircleCI on every push to master. The dialogflow
+state is stored in [`./dialogflow`](./dialogflow). The state is imported into
+dialogflow by [dialogflow-cli].
+
+The Cloud Function is transpiled and deployed using the `gcloud` command line
+tool. For details on how the deployment works, check out the [CircleCI
+configuration](./.circleci/config.yml).
+
+## Developing
+
+Before pushing, run
+
+    yarn check-all
+
+to make sure the automated checks done by the CI will pass.
+
+## Usage
 
 You can ask it about the following things.
 
-## Next Buses
+### Next Buses
 
 * Which buses are arriving at _place_ next?
 * When is the next bus to _place_ arriving?
@@ -21,23 +44,12 @@ which have `destination` on their route are listed.
 * The Perkin's Green bus is arriving in 5 minutes and the Park Point bus is
   arriving in 10.
 
-## Future Plans
+### Future Plans
 
 * How long will it take for me to get to _place_?
 * Where does _bus_ stop?
 * How long before _bus_ arrives?
 
-### Bus Arrival Time
-
-* How long before _bus_ arrives at _place_?
-* How far away is _bus_?
-* When is _bus_ arriving?
-
-If place isn't specified, the current location is used. Gives the amount of time
-before the bus arrives at the stop.
-
-* It'll be here in 10 minutes.
-* It's boarding now, it will arrive again in an hour.
-
 [build-status-image]: https://circleci.com/gh/0xcaff/transloc-action.svg?style=svg
 [build-status]: https://circleci.com/gh/0xcaff/transloc-action
+[dialogflow-cli]: https://github.com/0xcaff/dialogflow-cli
