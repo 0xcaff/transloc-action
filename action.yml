@@ -1,0 +1,43 @@
+# This file contains the application information for the action on google.
+
+## App Name
+appName: RIT Buses
+pronunciation: rit buses
+
+## Details
+introduction: >
+  find arrival times for buses at RIT.
+
+voice: Female 1
+matchLanguageSetting: true
+
+shortDescription: >
+  RIT Buses allows you to find arrival times for buses at RIT.
+
+description: >
+  This action allows you to find arrial times for buses at RIT. The data is
+  provided by Transloc.
+
+  Source Code: https://github.com/0xcaff/transloc-action
+
+invocations:
+  - Ask RIT Buses when the next bus arrives
+  - Ask RIT Buses when the next bus arrives at the Residence Halls
+  - Ask RIT Buses when the next bus from the Residence Halls to Gleason Circle arrives
+
+## Images
+# The images are stored in google drive.
+
+## Contact Details
+developerName: 0xcaff
+email: martincharles07@gmail.com
+
+## Privacy and Consent
+privacyPolicy: https://github.com/0xcaff/transloc-action/blob/privacy-policy/PRIVACY_POLICY.md
+termsOfService: ""
+
+## Additional Information
+category: Travel & Transportation
+family: false
+testingInstructions: ""
+transactions: false
