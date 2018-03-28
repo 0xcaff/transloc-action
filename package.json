@@ -57,7 +57,7 @@
       [
         "transform-inline-environment-variables",
         {
-          "include": "ALLOWED_AUTHORIZATION"
+          "include": ["ALLOWED_AUTHORIZATION", "CHATBASE_KEY", "CIRCLE_SHA1"]
         }
       ]
     ],
