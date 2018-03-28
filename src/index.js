@@ -32,7 +32,7 @@ export const handleHttp = async (
   if (process.env.CHATBASE_KEY && version) {
     const key = process.env.CHATBASE_KEY;
 
-    const req = requestFromDialogflow(request);
+    const req = requestFromDialogflow(request.body);
     const msg = buildChatbaseMessage(key, version, req);
     logger.info("sending chatbase information");
 
