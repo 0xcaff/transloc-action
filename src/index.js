@@ -33,6 +33,8 @@ export const handleHttp = async (
     const key = process.env.CHATBASE_KEY;
 
     const req = requestFromDialogflow(request.body);
+    logger.info({ chatbaseMessage: req });
+
     const msg = buildChatbaseMessage(key, version, req);
     logger.info("sending chatbase information");
 
