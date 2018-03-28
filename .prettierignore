@@ -3,5 +3,6 @@ lib
 /flow-typed/npm/**/*.js
 !/flow-typed/npm/actions-on-google_vx.x.x.js
 !/flow-typed/npm/fast-levenshtein_vx.x.x.js
+!/flow-typed/npm/@google/chatbase_vx.x.x.js
 
 coverage

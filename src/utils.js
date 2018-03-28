@@ -152,3 +152,6 @@ export const sortByDistance = <T>(
 
   return sorted.map(({ item }) => item);
 };
+
+export const first = <T>(items: T[]): ?T =>
+  items.length > 0 ? items[0] : null;
