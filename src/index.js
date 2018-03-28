@@ -7,9 +7,14 @@ import logger from "./logger";
 import { requestFromDialogflow } from "./request/inbound";
 import { buildChatbaseMessage } from "./request/request";
 
-export const handleHttp = (request: any, response: any) => {
+export const handleHttp = async (
+  request: any,
+  response: any
+): Promise<void> => {
+  const version = process.env.CIRCLE_SHA1;
+
   // Log Request
-  const info = { headers: request.headers, body: request.body };
+  const info = { headers: request.headers, body: request.body, version };
   logger.info(info, "request");
 
   // Authenticate Request
@@ -21,15 +26,18 @@ export const handleHttp = (request: any, response: any) => {
 
   const app = new DialogflowApp({ request, response });
 
+  await app.handleRequestAsync(actionMap);
+
   // Initialize Chatbase
-  if (process.env.CHATBASE_KEY && process.env.CIRCLE_SHA1) {
+  if (process.env.CHATBASE_KEY && version) {
     const key = process.env.CHATBASE_KEY;
-    const version = process.env.CIRCLE_SHA1;
 
     const req = requestFromDialogflow(request);
     const msg = buildChatbaseMessage(key, version, req);
-    msg.send();
-  }
+    logger.info("sending chatbase information");
 
-  app.handleRequest(actionMap);
+    await msg.send();
+
+    logger.info("sent chatbase information");
+  }
 };
