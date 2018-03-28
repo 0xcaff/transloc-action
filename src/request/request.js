@@ -34,7 +34,7 @@ export const buildChatbaseMessage = (
   const msg = chatbase
     .newMessage(key)
     .setAsTypeUser()
-    .setTimestamp(request.timestamp)
+    .setTimestamp(request.timestamp.toString())
     .setPlatform(request.platform)
     .setMessage(request.message)
     .setIntent(request.intent)
