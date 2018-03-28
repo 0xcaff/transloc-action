@@ -1,7 +1,7 @@
 declare module "@google/chatbase" {
   declare export class Message {
     setAsTypeUser(): Message;
-    setTimestamp(time: number): Message;
+    setTimestamp(time: string): Message;
     setPlatform(platform: string): Message;
     setMessage(message: string): Message;
     setIntent(action: string): Message;
