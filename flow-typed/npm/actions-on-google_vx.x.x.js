@@ -102,6 +102,8 @@ declare module "actions-on-google" {
 
     handleRequest(handler: Handler | HandlerMap): void;
 
+    handleRequestAsync(handler: Handler | HandlerMap): Promise<void>;
+
     getArgument(argName: string): any;
     tell(speechResponse: Response): ?Object;
     buildRichResponse(otherResponse: ?RichResponse): RichResponse;
