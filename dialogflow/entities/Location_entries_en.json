@@ -1,6 +1,62 @@
 [
   {
-    "value": "the moon",
-    "synonyms": ["the moon"]
+    "value": "Residence Halls",
+    "synonyms": ["Residence Halls"]
+  },
+  {
+    "value": "The Province",
+    "synonyms": ["The Province"]
+  },
+  {
+    "value": "Perkins Green",
+    "synonyms": ["Perkins Green"]
+  },
+  {
+    "value": "Colony Manor",
+    "synonyms": ["Colony Manor"]
+  },
+  {
+    "value": "Park Point South",
+    "synonyms": ["Park Point South"]
+  },
+  {
+    "value": "Park Point North",
+    "synonyms": ["Park Point North"]
+  },
+  {
+    "value": "Barnes \u0026 Noble",
+    "synonyms": ["Barnes \u0026 Noble"]
+  },
+  {
+    "value": "Lot B",
+    "synonyms": ["Lot B"]
+  },
+  {
+    "value": "Corner Lot B",
+    "synonyms": ["Corner Lot B"]
+  },
+  {
+    "value": "Gleason Circle",
+    "synonyms": ["Gleason Circle"]
+  },
+  {
+    "value": "Global Village",
+    "synonyms": ["Global Village"]
+  },
+  {
+    "value": "Riverknoll South",
+    "synonyms": ["Riverknoll South"]
+  },
+  {
+    "value": "UC West",
+    "synonyms": ["UC West"]
+  },
+  {
+    "value": "Racquet Club",
+    "synonyms": ["Racquet Club"]
+  },
+  {
+    "value": "RIT Inn",
+    "synonyms": ["RIT Inn"]
   }
 ]
