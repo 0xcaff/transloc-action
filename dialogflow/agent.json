@@ -37,5 +37,5 @@
   "customClassifierMode": "use.after",
   "mlMinConfidence": 0.3,
   "supportedLanguages": [],
-  "enableOnePlatformApi": false
+  "onePlatformApiVersion": "v1legacy"
 }
